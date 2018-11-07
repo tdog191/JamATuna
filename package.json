@@ -1,0 +1,8 @@
+{
+  "name": "JamATuna",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.1.1"
+  }
+}
