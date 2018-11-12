@@ -1,0 +1,47 @@
+var uri = "http://localhost:3000";
+
+function Instrument(context, gain, audioFiles) {
+  this.audioFiles = audioFiles;
+  this.context = context;
+  this.audioBuffer = {};
+  this.frequency = 1;
+  this.gain = gain;
+}
+
+Instrument.prototype = {
+  constructor: Instrument,
+  loadAllFiles: function() {
+    Promise.all(Object.keys(this.audioFiles).map(key => {
+      return fetch(uri + "/public/audio" + this.audioFiles[key])
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+          this.context.decodeAudioData(
+            buffer,
+            decoded => {
+              this.audioBuffer[key] = decoded;
+            },
+            e => {
+              console.error(e);
+            }
+          );
+        })
+    }))
+  },
+  updateFrequency(row) {
+    this.frequency = row;
+  },
+  playSound() {
+    var now = this.context.currentTime;
+    var timeToPlay = (Math.floor(now / 0.125) + 1) * 0.125;
+    var gainNode = this.context.createGain();
+    var source = this.context.createBufferSource();
+    source.buffer = this.audioBuffer[this.frequency];
+    gainNode.gain.setTargetAtTime(this.gain, timeToPlay, 0.01);
+    gainNode.gain.setTargetAtTime(0.0, timeToPlay + 0.5, 0.1);
+    source.connect(gainNode);
+    gainNode.connect(this.context.destination);
+    source.start(timeToPlay);
+  }
+};
+
+export default Instrument;
