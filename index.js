@@ -10,7 +10,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/audio", function(req, res) {
-  res.sendFile(__dirname + "/public/audio_prototype.html");
+  res.sendFile(__dirname + "/public/html/audio_prototype.html");
 });
 
 io.on("connection", function(socket) {
@@ -21,6 +21,9 @@ io.on("connection", function(socket) {
   });
   socket.on("disconnect", function() {
     console.log("user disconnected");
+  });
+  socket.on("audio message", function(freq) {
+    socket.broadcast.emit("audio message", freq);
   });
 });
 

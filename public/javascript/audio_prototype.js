@@ -21,7 +21,16 @@ window.onload = function() {
   synth.loadAllFiles();
 };
 
-$(".btn-group").on("click", ".btn", function() {
-  synth.updateFrequency($(this).attr("id"));
-  synth.playSound();
+$(function() {
+  var socket = io();
+  $(".btn-group").on("click", ".btn", function() {
+    var freq = $(this).attr("id");
+    socket.emit("audio message", freq);
+    synth.updateFrequency($(this).attr("id"));
+    synth.playSound();
+  });
+  socket.on("audio message", function(freq) {
+    synth.updateFrequency(freq);
+    synth.playSound();
+  });
 });
