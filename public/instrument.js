@@ -3,7 +3,7 @@ var uri = "http://localhost:3000";
 function Instrument(context, gain, audioFiles) {
   this.audioFiles = audioFiles;
   this.context = context;
-  this.audioBuffer = {};
+  this.audioBuffers = {};
   this.frequency = 1;
   this.gain = gain;
 }
@@ -19,7 +19,7 @@ Instrument.prototype = {
             this.context.decodeAudioData(
               buffer,
               decoded => {
-                this.audioBuffer[key] = decoded;
+                this.audioBuffers[key] = decoded;
               },
               e => {
                 console.error(e);
@@ -39,7 +39,7 @@ Instrument.prototype = {
     var timeToPlay = (Math.floor(now / 0.125) + 1) * 0.125;
     var gainNode = this.context.createGain();
     var source = this.context.createBufferSource();
-    source.buffer = this.audioBuffer[this.frequency];
+    source.buffer = this.audioBuffers[this.frequency];
     gainNode.gain.setTargetAtTime(this.gain, timeToPlay, 0.01);
     gainNode.gain.setTargetAtTime(0.0, timeToPlay + 2.0, 0.1);
     source.connect(gainNode);
