@@ -37,7 +37,7 @@ Instrument.prototype = {
     var source = this.context.createBufferSource();
     source.buffer = this.audioBuffer[this.frequency];
     gainNode.gain.setTargetAtTime(this.gain, timeToPlay, 0.01);
-    gainNode.gain.setTargetAtTime(0.0, timeToPlay + 0.5, 0.1);
+    gainNode.gain.setTargetAtTime(0.0, timeToPlay + 2.0, 0.1);
     source.connect(gainNode);
     gainNode.connect(this.context.destination);
     source.start(timeToPlay);
