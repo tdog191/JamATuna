@@ -11,21 +11,25 @@ function Instrument(context, gain, audioFiles) {
 Instrument.prototype = {
   constructor: Instrument,
   loadAllFiles: function() {
-    Promise.all(Object.keys(this.audioFiles).map(key => {
-      return fetch(uri + "/public/audio" + this.audioFiles[key])
-        .then(response => response.arrayBuffer())
-        .then(buffer => {
-          this.context.decodeAudioData(
-            buffer,
-            decoded => {
-              this.audioBuffer[key] = decoded;
-            },
-            e => {
-              console.error(e);
-            }
-          );
-        })
-    }))
+    Promise.all(
+      Object.keys(this.audioFiles).map(key => {
+        return fetch(uri + "/public/audio" + this.audioFiles[key])
+          .then(response => response.arrayBuffer())
+          .then(buffer => {
+            this.context.decodeAudioData(
+              buffer,
+              decoded => {
+                this.audioBuffer[key] = decoded;
+              },
+              e => {
+                console.error(e);
+              }
+            );
+          });
+      })
+    ).catch(e => {
+      console.error(e);
+    });
   },
   updateFrequency(row) {
     this.frequency = row;

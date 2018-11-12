@@ -1,4 +1,4 @@
-import Instrument from './instrument.js';
+import Instrument from "./instrument.js";
 
 var context;
 var synth;
@@ -16,12 +16,12 @@ window.onload = function() {
     8: "/synth/synth-08.mp3",
     9: "/synth/synth-09.mp3",
     10: "/synth/synth-10.mp3",
-    11: "/synth/synth-11.mp3"   
-  })
+    11: "/synth/synth-11.mp3"
+  });
   synth.loadAllFiles();
-}
+};
 
-$('.btn-group').on('click', '.btn', function() {
-  synth.updateFrequency($(this).attr('id'))
+$(".btn-group").on("click", ".btn", function() {
+  synth.updateFrequency($(this).attr("id"));
   synth.playSound();
 });
