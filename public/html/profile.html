@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/profile.css" type="text/css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row extra_margin">
+        <div class="col-md-4">
+          <div class="text-center">
+            <img src="https://via.placeholder.com/300x250" />
+
+            <h2>Thomas Warther</h2>
+
+            <a class="btn btn-primary btn-xs" href="#" role="button">Facebook</a>
+            <a class="btn btn-primary btn-xs" href="#" role="button">Twitter</a>
+            <a class="btn btn-primary btn-xs" href="#" role="button">Instagram</a>
+            <a class="btn btn-primary btn-xs" href="#" role="button">Website</a>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a href="#Profile" data-toggle="tab">Profile</a></li>
+            <li><a href="#Followers" data-toggle="tab">Followers</a></li>
+            <li><a href="#Settings" data-toggle="tab">Settings</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <!-- Profile Tab -->
+            <div class="tab-pane extra_margin fade in active" id="Profile"><p>This is the profile tab!</p></div>
+
+            <!-- Followers Tab -->
+            <div class="tab-pane extra_margin fade" id="Followers"><p>This is the followers tab!</p></div>
+
+            <!-- Settings Tab -->
+            <div class="tab-pane extra_margin fade" id="Settings">
+              <form>
+                <div class="form-group">
+                  <label for="uploadProfilePicture">Upload Profile Picture</label>
+                  <input type="file" class="form-control-file" id="uploadProfilePicture" />
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--
+      <script>
+        $(".nav li").on("click", function(){
+          $(".nav li").removeClass("active");
+          $(this).addClass("active");
+        });
+      </script>
+    -->
+  </body>
+</html>

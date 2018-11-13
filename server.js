@@ -4,15 +4,19 @@ function makeServer() {
   var http = require("http").createServer(app);
   var io = require("socket.io")(http);
 
-  app.use("/public", express.static(__dirname + "/public"));
+  app.use(express.static(__dirname + "/public"));
 
-  app.get("/chat", function(req, res) {
-    res.sendFile(__dirname + "/public/html/chat.html");
+  app.get("/", function(req, res) {
+    res.sendFile(__dirname + "/public/html/index.html");
   });
 
-  app.get("/audio", function(req, res) {
-    res.sendFile(__dirname + "/public/html/audio_prototype.html");
-  });
+  // app.get("/chat", function(req, res) {
+  //   res.sendFile(__dirname + "/public/html/chat.html");
+  // });
+
+  // app.get("/audio", function(req, res) {
+  //   res.sendFile(__dirname + "/public/html/audio_prototype.html");
+  // });
 
   io.on("connection", function(socket) {
     console.log("user connected");

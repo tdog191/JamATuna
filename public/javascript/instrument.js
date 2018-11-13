@@ -13,7 +13,7 @@ Instrument.prototype = {
   loadAllFiles: function() {
     Promise.all(
       Object.keys(this.audioFiles).map(key => {
-        return fetch(baseUrl + "/public/audio" + this.audioFiles[key])
+        return fetch(baseUrl + "/audio" + this.audioFiles[key])
           .then(response => response.arrayBuffer())
           .then(buffer => {
             this.context.decodeAudioData(
@@ -44,6 +44,7 @@ Instrument.prototype = {
     var gainNode = this.context.createGain();
     var source = this.context.createBufferSource();
     source.buffer = this.audioBuffers[this.frequency];
+    gainNode.gain.value = 0.0;
     gainNode.gain.setTargetAtTime(this.gain, timeToPlay, 0.01);
     gainNode.gain.setTargetAtTime(0.0, timeToPlay + 2.0, 0.1);
     source.connect(gainNode);
