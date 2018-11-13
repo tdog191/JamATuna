@@ -11,7 +11,7 @@ window.onload = function() {
     alert("Web Audio API is not supported in this browser");
   }
 
-  synth = new Instrument(context, 0.5, {
+  synth = new Instrument(context, 0.2, {
     1: "/synth/synth-01.mp3",
     2: "/synth/synth-02.mp3",
     3: "/synth/synth-03.mp3",
