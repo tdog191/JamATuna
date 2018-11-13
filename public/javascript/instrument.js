@@ -1,4 +1,4 @@
-var uri = "http://localhost:3000";
+var baseUrl = window.location.origin;
 
 function Instrument(context, gain, audioFiles) {
   this.audioFiles = audioFiles;
@@ -13,7 +13,7 @@ Instrument.prototype = {
   loadAllFiles: function() {
     Promise.all(
       Object.keys(this.audioFiles).map(key => {
-        return fetch(uri + "/public/audio" + this.audioFiles[key])
+        return fetch(baseUrl + "/public/audio" + this.audioFiles[key])
           .then(response => response.arrayBuffer())
           .then(buffer => {
             this.context.decodeAudioData(
@@ -27,9 +27,13 @@ Instrument.prototype = {
             );
           });
       })
-    ).catch(e => {
-      console.error(e);
-    });
+    )
+      .then(() => {
+        alert("Audio files loaded!");
+      })
+      .catch(e => {
+        console.error(e);
+      });
   },
   updateFrequency(row) {
     this.frequency = row;

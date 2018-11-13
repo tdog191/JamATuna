@@ -4,7 +4,13 @@ var context;
 var synth;
 
 window.onload = function() {
-  context = new AudioContext();
+  try {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    context = new AudioContext();
+  } catch (e) {
+    alert("Web Audio API is not supported in this browser");
+  }
+
   synth = new Instrument(context, 0.5, {
     1: "/synth/synth-01.mp3",
     2: "/synth/synth-02.mp3",
