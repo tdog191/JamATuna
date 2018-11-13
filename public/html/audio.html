@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Audio</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 20;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        font: 13px Helvetica, Arial;
+        width: 100%;
+        margin: 0;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid text-center w-100 h-100">
+      <div class="row align-items-center h-100">
+        <div class="col-md-12">
+          <h1>Audio</h1>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons" id="group">
+            <label class="btn btn-secondary btn-lg btn-lg" id="1">
+              <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
+            </label>
+            <label class="btn btn-secondary btn-lg" id="2">
+              <input type="radio" name="options" id="2" autocomplete="off" /> 2
+            </label>
+            <label class="btn btn-secondary btn-lg" id="3">
+              <input type="radio" name="options" id="3" autocomplete="off" /> 3
+            </label>
+            <label class="btn btn-secondary btn-lg" id="4">
+              <input type="radio" name="options" id="4" autocomplete="off" /> 4
+            </label>
+            <label class="btn btn-secondary btn-lg" id="5">
+              <input type="radio" name="options" id="5" autocomplete="off" /> 5
+            </label>
+            <label class="btn btn-secondary btn-lg" id="6">
+              <input type="radio" name="options" id="6" autocomplete="off" /> 6
+            </label>
+            <label class="btn btn-secondary btn-lg" id="7">
+              <input type="radio" name="options" id="7" autocomplete="off" /> 7
+            </label>
+            <label class="btn btn-secondary btn-lg" id="8">
+              <input type="radio" name="options" id="8" autocomplete="off" /> 8
+            </label>
+            <label class="btn btn-secondary btn-lg" id="9">
+              <input type="radio" name="options" id="9" autocomplete="off" /> 9
+            </label>
+            <label class="btn btn-secondary btn-lg" id="10">
+              <input type="radio" name="options" id="10" autocomplete="off" /> 10
+            </label>
+            <label class="btn btn-secondary btn-lg" id="11">
+              <input type="radio" name="options" id="11" autocomplete="off" /> 11
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/javascript/audio.js"></script>
+  </body>
+</html>
