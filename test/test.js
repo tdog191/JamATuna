@@ -7,9 +7,14 @@ describe("loading express", function() {
   afterEach(function() {
     server.close();
   });
-  it("responds to /", function testSlash(done) {
+  it("responds to /audio", function testSlash(done) {
     request(server)
-      .get("/")
+      .get("/audio")
+      .expect(200, done);
+  });
+  it("responds to /chat", function testSlash(done) {
+    request(server)
+      .get("/chat")
       .expect(200, done);
   });
   it("404 on incorrect page", function testPath(done) {
