@@ -10,14 +10,6 @@ function makeServer() {
     res.sendFile(__dirname + "/public/html/index.html");
   });
 
-  // app.get("/chat", function(req, res) {
-  //   res.sendFile(__dirname + "/public/html/chat.html");
-  // });
-
-  // app.get("/audio", function(req, res) {
-  //   res.sendFile(__dirname + "/public/html/audio_prototype.html");
-  // });
-
   io.on("connection", function(socket) {
     console.log("user connected");
     socket.on("chat message", function(msg) {
