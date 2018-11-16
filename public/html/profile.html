@@ -18,7 +18,7 @@
       <div class="row extra_margin">
         <div class="col-md-4">
           <div class="text-center">
-            <img src="https://via.placeholder.com/300x250" />
+            <img src="/images/jamatuna.png" id="profile-picture" width="300" height="250"/>
 
             <h2>Thomas Warther</h2>
 
@@ -47,8 +47,21 @@
             <div class="tab-pane extra_margin fade" id="Settings">
               <form>
                 <div class="form-group">
-                  <label for="uploadProfilePicture">Upload Profile Picture</label>
-                  <input type="file" class="form-control-file" id="uploadProfilePicture" />
+                  <label for="selectProfileImage">Select Profile Image</label>
+                  <select class="form-control" id="selectProfileImage">
+                    <option>Orange Fish</option>
+                    <option>Blue Fish</option>
+                    <option>Clown Fish</option>
+                    <option>Tuna</option>
+                    <option selected>JamATuna</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </form>
+              <form id="upload-profile-picture" action="#" method="POST" enctype="multipart/form-data" hidden>
+                <div class="form-group">
+                  <label for="file">Upload Profile Picture</label>
+                  <input type="file" class="form-control-file" id="file" />
                 </div>
                 <button type="submit" class="btn btn-primary">Upload</button>
               </form>
@@ -64,14 +77,6 @@
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"
     ></script>
-
-    <!--
-      <script>
-        $(".nav li").on("click", function(){
-          $(".nav li").removeClass("active");
-          $(this).addClass("active");
-        });
-      </script>
-    -->
+    <script type="module" src="/javascript/profile.js"></script>
   </body>
 </html>

@@ -1,26 +1,38 @@
+<!-- Defines a webpage to chat with other users. -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Chat</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="../css/chat.css" type="text/css" />
   </head>
   <body>
+    <!-- Chat messages get added to this list in as they are sent. -->
     <ul id="messages"></ul>
-    <form action=""><input id="m" autocomplete="off" /><button>Send</button></form>
+
+    <!-- Display text boxes to enter username and message -->
+    <form action="">
+      <input id="username-box" autocomplete="off" placeholder="Enter username"/>
+      <input id="message-box" autocomplete="off" placeholder="Enter message"/>
+      <button id="send-button">Send</button>
+    </form>
+
+    <!-- Embed socket.io, jquery, and javascript scripts -->
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      $(function() {
-        var socket = io();
-        $("form").submit(function() {
-          socket.emit("chat message", $("#m").val());
-          $("#m").val("");
-          return false;
-        });
-        socket.on("chat message", function(msg) {
-          $("#messages").append($("<li>").text(msg));
-        });
-      });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/javascript/chat.js"></script>
   </body>
 </html>
