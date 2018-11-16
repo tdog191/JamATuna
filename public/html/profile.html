@@ -1,3 +1,8 @@
+<!--
+    Inspiration for the structure and design of the profile webpage comes from
+    the "Create a Basic Profile Page with Bootstrap" tutorial on Youtube at
+    https://www.youtube.com/watch?v=bamVA74eh0k
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,7 +20,7 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row extra_margin">
+      <div class="row top_margin_offset">
         <div class="col-md-4">
           <div class="text-center">
             <img src="/images/jamatuna.png" id="profile-picture" width="300" height="250"/>
@@ -38,13 +43,13 @@
 
           <div class="tab-content">
             <!-- Profile Tab -->
-            <div class="tab-pane extra_margin fade in active" id="Profile"><p>This is the profile tab!</p></div>
+            <div class="tab-pane top_margin_offset fade in active" id="Profile"><p>This is the profile tab!</p></div>
 
             <!-- Followers Tab -->
-            <div class="tab-pane extra_margin fade" id="Followers"><p>This is the followers tab!</p></div>
+            <div class="tab-pane top_margin_offset fade" id="Followers"><p>This is the followers tab!</p></div>
 
             <!-- Settings Tab -->
-            <div class="tab-pane extra_margin fade" id="Settings">
+            <div class="tab-pane top_margin_offset fade" id="Settings">
               <form>
                 <div class="form-group">
                   <label for="selectProfileImage">Select Profile Image</label>
