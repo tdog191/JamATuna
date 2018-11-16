@@ -33,6 +33,6 @@ function displayMessage(socket) {
  */
 $(function() {
   var socket = io();
-  broadcastMessage(socket, message);
+  broadcastMessage(socket);
   displayMessage(socket);
 });
