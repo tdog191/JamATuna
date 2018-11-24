@@ -1,31 +1,20 @@
 function makeServer() {
-  var express = require("express");
-  var app = express();
-  var http = require("http").createServer(app);
-  var io = require("socket.io")(http);
+  const express = require('express');
+  const app = express();
+  const http = require('http').createServer(app);
+  const io = require('socket.io')(http);
 
-  app.use(express.static(__dirname + "/public"));
+  const config = require('./server/config')(io);
+  const api = require('./server/api')(app);
 
-  app.get("/", function(req, res) {
-    res.sendFile(__dirname + "/public/html/index.html");
-  });
+  app.use(express.static(__dirname + '/public'));
 
-  io.on("connection", function(socket) {
-    console.log("user connected");
-    socket.on("chat message", function(msg) {
-      console.log("message: " + msg);
-      io.emit("chat message", msg);
-    });
-    socket.on("disconnect", function() {
-      console.log("user disconnected");
-    });
-    socket.on("audio message", function(freq) {
-      socket.broadcast.emit("audio message", freq);
-    });
+  app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/public/html/index.html');
   });
 
   http.listen(process.env.PORT || 3000, function() {
-    console.log("server started");
+    console.log('server started');
   });
 
   return http;
