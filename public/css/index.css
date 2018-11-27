@@ -1,10 +1,8 @@
 html,
 body {
   font: 13px Helvetica, Arial;
-  width: 100%;
-  margin: 0;
   height: 100%;
 }
 .button {
-  width: 70px !important;
+  width: 120px !important;
 }
