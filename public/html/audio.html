@@ -8,71 +8,397 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <style>
-      * {
-        margin: 0;
-        padding: 20;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        font: 13px Helvetica, Arial;
-        width: 100%;
-        margin: 0;
-        height: 100%;
-      }
-    </style>
+    <link rel="stylesheet" href="../css/audio.css" type="text/css" />
+    <link rel="stylesheet" href="../css/vendor/bootstrap-slider.min.css" type="text/css" />
   </head>
   <body>
     <div class="container-fluid text-center w-100 h-100">
-      <div class="row align-items-center h-100">
+      <div id="overlay"><img src="../images/loader.gif" alt="Loading" /><br /></div>
+      <div class="row align-items-center w-100 h-100">
         <div class="col-md-12">
-          <h1>Audio</h1>
-          <div class="btn-group btn-group-toggle" data-toggle="buttons" id="group">
-            <label class="btn btn-secondary btn-lg btn-lg" id="1">
-              <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
-            </label>
-            <label class="btn btn-secondary btn-lg" id="2">
-              <input type="radio" name="options" id="2" autocomplete="off" /> 2
-            </label>
-            <label class="btn btn-secondary btn-lg" id="3">
-              <input type="radio" name="options" id="3" autocomplete="off" /> 3
-            </label>
-            <label class="btn btn-secondary btn-lg" id="4">
-              <input type="radio" name="options" id="4" autocomplete="off" /> 4
-            </label>
-            <label class="btn btn-secondary btn-lg" id="5">
-              <input type="radio" name="options" id="5" autocomplete="off" /> 5
-            </label>
-            <label class="btn btn-secondary btn-lg" id="6">
-              <input type="radio" name="options" id="6" autocomplete="off" /> 6
-            </label>
-            <label class="btn btn-secondary btn-lg" id="7">
-              <input type="radio" name="options" id="7" autocomplete="off" /> 7
-            </label>
-            <label class="btn btn-secondary btn-lg" id="8">
-              <input type="radio" name="options" id="8" autocomplete="off" /> 8
-            </label>
-            <label class="btn btn-secondary btn-lg" id="9">
-              <input type="radio" name="options" id="9" autocomplete="off" /> 9
-            </label>
-            <label class="btn btn-secondary btn-lg" id="10">
-              <input type="radio" name="options" id="10" autocomplete="off" /> 10
-            </label>
-            <label class="btn btn-secondary btn-lg" id="11">
-              <input type="radio" name="options" id="11" autocomplete="off" /> 11
-            </label>
+          <h1>Pluck</h1>
+          <div class="channel">
+            <div class="sliderContainer margins">
+              <div>Gain</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="pluck-gain"
+                  type="text"
+                  data-slider-scale="logarithmic"
+                  data-slider-min="0"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="1"
+                  data-provide="slider"
+                  data-slider-id="gainSlider"
+                />
+              </div>
+            </div>
+            <div class="sliderContainer margins">
+              <div>Pan</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="pluck-pan"
+                  type="text"
+                  data-slider-min="-1"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="0"
+                  data-provide="slider"
+                  data-slider-id="ex1Slider"
+                />
+              </div>
+            </div>
+            <div class="btn-group btn-group-toggle margins" data-toggle="buttons" id="pluck">
+              <label class="btn btn-secondary btn-lg btn-lg" id="1">
+                <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
+              </label>
+              <label class="btn btn-secondary btn-lg" id="2">
+                <input type="radio" name="options" id="2" autocomplete="off" /> 2
+              </label>
+              <label class="btn btn-secondary btn-lg" id="3">
+                <input type="radio" name="options" id="3" autocomplete="off" /> 3
+              </label>
+              <label class="btn btn-secondary btn-lg" id="4">
+                <input type="radio" name="options" id="4" autocomplete="off" /> 4
+              </label>
+              <label class="btn btn-secondary btn-lg" id="5">
+                <input type="radio" name="options" id="5" autocomplete="off" /> 5
+              </label>
+              <label class="btn btn-secondary btn-lg" id="6">
+                <input type="radio" name="options" id="6" autocomplete="off" /> 6
+              </label>
+              <label class="btn btn-secondary btn-lg" id="7">
+                <input type="radio" name="options" id="7" autocomplete="off" /> 7
+              </label>
+              <label class="btn btn-secondary btn-lg" id="8">
+                <input type="radio" name="options" id="8" autocomplete="off" /> 8
+              </label>
+              <label class="btn btn-secondary btn-lg" id="9">
+                <input type="radio" name="options" id="9" autocomplete="off" /> 9
+              </label>
+              <label class="btn btn-secondary btn-lg" id="10">
+                <input type="radio" name="options" id="10" autocomplete="off" /> 10
+              </label>
+              <label class="btn btn-secondary btn-lg" id="11">
+                <input type="radio" name="options" id="11" autocomplete="off" /> 11
+              </label>
+            </div>
+          </div>
+
+          <h1>Bass</h1>
+          <div class="channel">
+            <div class="sliderContainer margins">
+              <div>Gain</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="bass-gain"
+                  type="text"
+                  data-slider-scale="logarithmic"
+                  data-slider-min="0"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="1"
+                  data-provide="slider"
+                  data-slider-id="gainSlider"
+                />
+              </div>
+            </div>
+            <div class="sliderContainer margins">
+              <div>Pan</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="bass-pan"
+                  type="text"
+                  data-slider-min="-1"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="0"
+                  data-provide="slider"
+                  data-slider-id="ex1Slider"
+                />
+              </div>
+            </div>
+            <div class="btn-group btn-group-toggle margins" data-toggle="buttons" id="bass">
+              <label class="btn btn-secondary btn-lg btn-lg" id="1">
+                <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
+              </label>
+              <label class="btn btn-secondary btn-lg" id="2">
+                <input type="radio" name="options" id="2" autocomplete="off" /> 2
+              </label>
+              <label class="btn btn-secondary btn-lg" id="3">
+                <input type="radio" name="options" id="3" autocomplete="off" /> 3
+              </label>
+              <label class="btn btn-secondary btn-lg" id="4">
+                <input type="radio" name="options" id="4" autocomplete="off" /> 4
+              </label>
+              <label class="btn btn-secondary btn-lg" id="5">
+                <input type="radio" name="options" id="5" autocomplete="off" /> 5
+              </label>
+              <label class="btn btn-secondary btn-lg" id="6">
+                <input type="radio" name="options" id="6" autocomplete="off" /> 6
+              </label>
+              <label class="btn btn-secondary btn-lg" id="7">
+                <input type="radio" name="options" id="7" autocomplete="off" /> 7
+              </label>
+              <label class="btn btn-secondary btn-lg" id="8">
+                <input type="radio" name="options" id="8" autocomplete="off" /> 8
+              </label>
+              <label class="btn btn-secondary btn-lg" id="9">
+                <input type="radio" name="options" id="9" autocomplete="off" /> 9
+              </label>
+              <label class="btn btn-secondary btn-lg" id="10">
+                <input type="radio" name="options" id="10" autocomplete="off" /> 10
+              </label>
+              <label class="btn btn-secondary btn-lg" id="11">
+                <input type="radio" name="options" id="11" autocomplete="off" /> 11
+              </label>
+            </div>
+          </div>
+
+          <h1>Chord</h1>
+          <div class="channel">
+            <div class="sliderContainer margins">
+              <div>Gain</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="chord-gain"
+                  type="text"
+                  data-slider-scale="logarithmic"
+                  data-slider-min="0"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="1"
+                  data-provide="slider"
+                  data-slider-id="gainSlider"
+                />
+              </div>
+            </div>
+            <div class="sliderContainer margins">
+              <div>Pan</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="chord-pan"
+                  type="text"
+                  data-slider-min="-1"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="0"
+                  data-provide="slider"
+                  data-slider-id="ex1Slider"
+                />
+              </div>
+            </div>
+            <div class="btn-group btn-group-toggle margins" data-toggle="buttons" id="chord">
+              <label class="btn btn-secondary btn-lg btn-lg" id="1">
+                <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
+              </label>
+              <label class="btn btn-secondary btn-lg" id="2">
+                <input type="radio" name="options" id="2" autocomplete="off" /> 2
+              </label>
+              <label class="btn btn-secondary btn-lg" id="3">
+                <input type="radio" name="options" id="3" autocomplete="off" /> 3
+              </label>
+              <label class="btn btn-secondary btn-lg" id="4">
+                <input type="radio" name="options" id="4" autocomplete="off" /> 4
+              </label>
+              <label class="btn btn-secondary btn-lg" id="5">
+                <input type="radio" name="options" id="5" autocomplete="off" /> 5
+              </label>
+              <label class="btn btn-secondary btn-lg" id="6">
+                <input type="radio" name="options" id="6" autocomplete="off" /> 6
+              </label>
+              <label class="btn btn-secondary btn-lg" id="7">
+                <input type="radio" name="options" id="7" autocomplete="off" /> 7
+              </label>
+              <label class="btn btn-secondary btn-lg" id="8">
+                <input type="radio" name="options" id="8" autocomplete="off" /> 8
+              </label>
+              <label class="btn btn-secondary btn-lg" id="9">
+                <input type="radio" name="options" id="9" autocomplete="off" /> 9
+              </label>
+              <label class="btn btn-secondary btn-lg" id="10">
+                <input type="radio" name="options" id="10" autocomplete="off" /> 10
+              </label>
+              <label class="btn btn-secondary btn-lg" id="11">
+                <input type="radio" name="options" id="11" autocomplete="off" /> 11
+              </label>
+            </div>
+          </div>
+
+          <h1>Lead</h1>
+          <div class="channel">
+            <div class="sliderContainer margins">
+              <div>Gain</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="lead-gain"
+                  type="text"
+                  data-slider-scale="logarithmic"
+                  data-slider-min="0"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="1"
+                  data-provide="slider"
+                  data-slider-id="gainSlider"
+                />
+              </div>
+            </div>
+            <div class="sliderContainer margins">
+              <div>Pan</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="lead-pan"
+                  type="text"
+                  data-slider-min="-1"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="0"
+                  data-provide="slider"
+                  data-slider-id="ex1Slider"
+                />
+              </div>
+            </div>
+            <div class="btn-group btn-group-toggle margins" data-toggle="buttons" id="lead">
+              <label class="btn btn-secondary btn-lg btn-lg" id="1">
+                <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
+              </label>
+              <label class="btn btn-secondary btn-lg" id="2">
+                <input type="radio" name="options" id="2" autocomplete="off" /> 2
+              </label>
+              <label class="btn btn-secondary btn-lg" id="3">
+                <input type="radio" name="options" id="3" autocomplete="off" /> 3
+              </label>
+              <label class="btn btn-secondary btn-lg" id="4">
+                <input type="radio" name="options" id="4" autocomplete="off" /> 4
+              </label>
+              <label class="btn btn-secondary btn-lg" id="5">
+                <input type="radio" name="options" id="5" autocomplete="off" /> 5
+              </label>
+              <label class="btn btn-secondary btn-lg" id="6">
+                <input type="radio" name="options" id="6" autocomplete="off" /> 6
+              </label>
+              <label class="btn btn-secondary btn-lg" id="7">
+                <input type="radio" name="options" id="7" autocomplete="off" /> 7
+              </label>
+              <label class="btn btn-secondary btn-lg" id="8">
+                <input type="radio" name="options" id="8" autocomplete="off" /> 8
+              </label>
+              <label class="btn btn-secondary btn-lg" id="9">
+                <input type="radio" name="options" id="9" autocomplete="off" /> 9
+              </label>
+              <label class="btn btn-secondary btn-lg" id="10">
+                <input type="radio" name="options" id="10" autocomplete="off" /> 10
+              </label>
+              <label class="btn btn-secondary btn-lg" id="11">
+                <input type="radio" name="options" id="11" autocomplete="off" /> 11
+              </label>
+            </div>
+          </div>
+
+          <h1>Piano</h1>
+          <div class="channel">
+            <div class="sliderContainer margins">
+              <div>Gain</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="piano-gain"
+                  type="text"
+                  data-slider-scale="logarithmic"
+                  data-slider-min="0"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="1"
+                  data-provide="slider"
+                  data-slider-id="gainSlider"
+                />
+              </div>
+            </div>
+            <div class="sliderContainer margins">
+              <div>Pan</div>
+              <div>
+                <input
+                  class="slider p"
+                  id="piano-pan"
+                  type="text"
+                  data-slider-min="-1"
+                  data-slider-max="1"
+                  data-slider-step="0.01"
+                  data-slider-value="0"
+                  data-provide="slider"
+                  data-slider-id="ex1Slider"
+                />
+              </div>
+            </div>
+            <div class="btn-group btn-group-toggle margins" data-toggle="buttons" id="piano">
+              <label class="btn btn-secondary btn-lg btn-lg" id="1">
+                <input type="radio" name="options" id="1" autocomplete="off" checked /> 1
+              </label>
+              <label class="btn btn-secondary btn-lg" id="2">
+                <input type="radio" name="options" id="2" autocomplete="off" /> 2
+              </label>
+              <label class="btn btn-secondary btn-lg" id="3">
+                <input type="radio" name="options" id="3" autocomplete="off" /> 3
+              </label>
+              <label class="btn btn-secondary btn-lg" id="4">
+                <input type="radio" name="options" id="4" autocomplete="off" /> 4
+              </label>
+              <label class="btn btn-secondary btn-lg" id="5">
+                <input type="radio" name="options" id="5" autocomplete="off" /> 5
+              </label>
+              <label class="btn btn-secondary btn-lg" id="6">
+                <input type="radio" name="options" id="6" autocomplete="off" /> 6
+              </label>
+              <label class="btn btn-secondary btn-lg" id="7">
+                <input type="radio" name="options" id="7" autocomplete="off" /> 7
+              </label>
+              <label class="btn btn-secondary btn-lg" id="8">
+                <input type="radio" name="options" id="8" autocomplete="off" /> 8
+              </label>
+              <label class="btn btn-secondary btn-lg" id="9">
+                <input type="radio" name="options" id="9" autocomplete="off" /> 9
+              </label>
+              <label class="btn btn-secondary btn-lg" id="10">
+                <input type="radio" name="options" id="10" autocomplete="off" /> 10
+              </label>
+              <label class="btn btn-secondary btn-lg" id="11">
+                <input type="radio" name="options" id="11" autocomplete="off" /> 11
+              </label>
+            </div>
+          </div>
+
+          <h1>Drums</h1>
+          <div class="btn-group">
+            <div class="btn-group-toggle" data-toggle="buttons" id="hats">
+              <label class="btn btn-secondary active radioButton">
+                <input type="checkbox" checked autocomplete="off" /> Hats
+              </label>
+            </div>
+            <div class="btn-group-toggle" data-toggle="buttons" id="shakers">
+              <label class="btn btn-secondary active radioButton">
+                <input type="checkbox" checked autocomplete="off" /> Shakers
+              </label>
+            </div>
+            <div class="btn-group-toggle" data-toggle="buttons" id="congas">
+              <label class="btn btn-secondary active radioButton">
+                <input type="checkbox" checked autocomplete="off" /> Congas
+              </label>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
       integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -83,6 +409,7 @@
       integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
       crossorigin="anonymous"
     ></script>
+    <script src="/javascript/vendor/bootstrap-slider.min.js"></script>
     <script type="module" src="/javascript/audio.js"></script>
   </body>
 </html>

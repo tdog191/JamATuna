@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 20;
+  box-sizing: border-box;
+}
+html,
+body {
+  font: 13px Helvetica, Arial;
+  width: 100%;
+  margin: 0;
+  height: 100%;
+}
+#overlay {
+  background: #ffffff;
+  color: #666666;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 5000;
+  top: 0;
+  left: 0;
+  float: left;
+  text-align: center;
+  padding-top: 25%;
+}
+.radioButton {
+  width: 100px !important;
+}
+#gainSlider .slider-selection {
+  background: #bababa;
+}
+.margins {
+  margin: 10px 10px 10px 10px;
+}
+.slider {
+  width: 100px !important;
+}
+.channel {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.sliderContainer {
+  display: flow-root;
+  justify-content: center;
+  align-items: stretch;
+}

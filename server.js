@@ -7,12 +7,13 @@ function makeServer() {
   const config = require('./server/config')(io);
   const api = require('./server/api')(app);
 
-  app.use(express.static(__dirname + '/client'));
+  app.use(express.static(__dirname + '/public'));
 
   app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/client/html/index.html');
+    res.sendFile(__dirname + '/public/html/index.html');
   });
 
+  // Start listing on the correct port
   http.listen(process.env.PORT || 3000, function() {
     console.log('server started');
   });
