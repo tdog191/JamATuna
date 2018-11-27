@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Defines API on Express server to implement responses to GET and
+ *     POST requests made by users and related server-side functionality.
+ */
+
 'use strict';
 
 function api(app) {
@@ -6,7 +11,10 @@ function api(app) {
   const validation = require('./validation');
   const firebase = require('firebase');
 
-  /** bodyParser.urlencoded(options)
+  /** From Stack Overflow post
+   * (https://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
+   *
+   * bodyParser.urlencoded(options)
    * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)
    * and exposes the resulting object (containing the keys and values) on req.body
    */
@@ -14,11 +22,15 @@ function api(app) {
     extended: true
   }));
 
-  /**bodyParser.json(options)
+  /** From Stack Overflow post
+   * (https://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
+   *
+   * bodyParser.json(options)
    * Parses the text as JSON and exposes the resulting object on req.body.
    */
   app.use(bodyParser.json());
 
+  // Defines POST request to let user log in to his/her account
   app.post('/api/login', function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
@@ -49,6 +61,7 @@ function api(app) {
     });
   });
 
+  // Defines POST request to let user sign up and create an account
   app.post('/api/signup', function(req, res) {
     const username = req.body.username;
     const password = req.body.password;

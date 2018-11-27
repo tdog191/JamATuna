@@ -3,7 +3,7 @@
  *     signup page as the user types and when the form is submitted.
  */
 
-//TODO: Refactor login and signup pages to reuse duplicate code
+//TODO: Refactor login, signup, create_jam_room, and join_jam_room pages to reuse duplicate code
 
 'use strict';
 

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Defines helper functions for performing validation of requests
- *     to the express server API using Firebase.
+ *     to the Express server API using Firebase.
  */
 
 'use strict';

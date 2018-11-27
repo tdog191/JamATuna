@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Configures the Firebase database whenever the Express server
+ *     starts up.
+ */
+
 'use strict';
 
 function configureFirebase() {
