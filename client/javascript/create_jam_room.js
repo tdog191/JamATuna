@@ -1,6 +1,6 @@
 /**
  * @fileoverview Defines helper functions for validating the form fields of the
- *     login page as the user types and when the form is submitted.
+ *     jam room creation page as the user types and when the form is submitted.
  */
 
 'use strict';
@@ -78,10 +78,10 @@ function validateFormOnSubmission(formID) {
 }
 
 /**
- * Defines the overall jquery functionality of the login webpage: validating
- * the form fields as the user types and when the form is submitted.
+ * Defines the overall jquery functionality of the jam room creation webpage:
+ * validating the form fields as the user types and when the form is submitted.
  */
 $(function() {
-  defineEventHandlers('login_form');
-  validateFormOnSubmission('login_form');
+  defineEventHandlers('create_jam_room_form');
+  validateFormOnSubmission('create_jam_room_form');
 });

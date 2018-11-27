@@ -1,18 +1,23 @@
+/**
+ * @fileoverview Defines helper functions for performing validation of requests
+ *     to the express server API using Firebase.
+ */
+
 'use strict';
 
+const firebase = require('firebase');
+
 /**
- * Callback for when the profile-search query on Firebase succeeds.  If no
- * profile data was retrieved from Firebase, a new profile-search query is
- * executed on GitHub.
+ * Callback to inspect a successful response to a Firebase query for the
+ * existence of a value.
  *
- * @param jsonResponse The response to the profile-search query containing the
- *     user's profile data on GitHub
+ * @param queryResponse A successful response to a Firebase query
  * @private
  */
-function handleFirebaseSuccessfulResponse_(snapshot) {
-  const username = snapshot.val();
+function checkIfValueExists_(queryResponse) {
+  const value = queryResponse.val();
 
-  if (username) {
+  if (value) {
     return true;
   } else {
     return false;
@@ -20,26 +25,46 @@ function handleFirebaseSuccessfulResponse_(snapshot) {
 }
 
 /**
- * Callback for when the profile-search query on Firebase fails.  It logs the
+ * Callback for when a Firebase operation fails.  It logs the
  * error response.
  *
- * @param errorResponse The response to the profile-search query when it fails
+ * @param errorResponse The error response to log
  * @private
  */
 function handleFirebaseErrorResponse_(errorResponse) {
   console.error(errorResponse);
 }
 
+/**
+ * Query Firebase to check if the provided username exists.
+ *
+ * @returns {Promise<boolean | never>} true in a Promise if the query succeeds
+ *     and the username exists, false in a Promise if the query succeeds and the
+ *     username does not exist, or log the error response if the query fails
+ */
 function checkIfUsernameExists(username) {
-  const firebase = require('firebase');
-
   return firebase.database().ref('/users/' + username).once('value')
-      .then(handleFirebaseSuccessfulResponse_)
+      .then(checkIfValueExists_)
       .catch(handleFirebaseErrorResponse_)
 }
 
+/**
+ * Query Firebase to check if the jam room with the provided name exists.
+ *
+ * @returns {Promise<boolean | never>} true in a Promise if the query succeeds
+ *     and the jam room exists, false in a Promise if the query succeeds and the
+ *     jam room does not exist, or log the error response if the query fails
+ */
+function checkIfJamRoomExists(jamRoomName) {
+  return firebase.database().ref('/jam_rooms/' + jamRoomName).once('value')
+      .then(checkIfValueExists_)
+      .catch(handleFirebaseErrorResponse_)
+}
+
+// Define all the functions in this file to be publicly available to other files
 const validation = {
   checkIfUsernameExists: checkIfUsernameExists,
+  checkIfJamRoomExists: checkIfJamRoomExists,
 };
 
 module.exports = validation;

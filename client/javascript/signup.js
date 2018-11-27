@@ -1,5 +1,5 @@
 /**
- * @fileoverview Defines helper methods for validating the form fields of the
+ * @fileoverview Defines helper functions for validating the form fields of the
  *     signup page as the user types and when the form is submitted.
  */
 

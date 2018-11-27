@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Jam Room</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/create_jam_room.css" type="text/css" />
+  </head>
+  <body>
+    <div class="container-fluid h-100">
+      <div class="row justify-content-md-center h-100"> <!-- Center horizontally -->
+        <div class="col-md-4 align-self-center"> <!-- Center vertically -->
+          <div class="text-center">
+            <h2 id="page_header">
+              Create Jam Room
+            </h2>
+            <form id="create_jam_room_form" method="post" action="/api/create_jam_room" enctype="application/x-www-form-urlencoded">
+              <div class="form-group">
+                <label for="jam_room_name">Jam Room Name</label>
+                <input type="text" class="form-control" name="jam_room_name" id="jam_room_name" placeholder="Enter name">
+                <div class="invalid-feedback" id="empty_jam_room_name_feedback" disabled>
+                  Jam room name cannot be empty.
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="owner_username">Owner Username</label>
+                <input type="text" class="form-control" name="owner_username" id="owner_username" placeholder="Enter owner username">
+                <div class="invalid-feedback" id="empty_owner_username_feedback" disabled>
+                  Owner username cannot be empty.
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/javascript/create_jam_room.js"></script>
+  </body>
+</html>
