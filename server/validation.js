@@ -12,6 +12,7 @@ const firebase = require('firebase');
  * existence of a value.
  *
  * @param queryResponse A successful response to a Firebase query
+ * @returns true if a value exists in the response, false otherwise
  * @private
  */
 function checkIfValueExists_(queryResponse) {
@@ -26,13 +27,16 @@ function checkIfValueExists_(queryResponse) {
 
 /**
  * Callback for when a Firebase operation fails.  It logs the
- * error response.
+ * error response and returns it.
  *
  * @param errorResponse The error response to log
+ * @returns {*} the error response
  * @private
  */
 function handleFirebaseErrorResponse_(errorResponse) {
   console.error(errorResponse);
+
+  return errorResponse;
 }
 
 /**
@@ -40,7 +44,7 @@ function handleFirebaseErrorResponse_(errorResponse) {
  *
  * @returns {Promise<boolean | never>} true in a Promise if the query succeeds
  *     and the username exists, false in a Promise if the query succeeds and the
- *     username does not exist, or log the error response if the query fails
+ *     username does not exist, or log and return the error response if the query fails
  */
 function checkIfUsernameExists(username) {
   return firebase.database().ref('/users/' + username).once('value')
@@ -53,7 +57,7 @@ function checkIfUsernameExists(username) {
  *
  * @returns {Promise<boolean | never>} true in a Promise if the query succeeds
  *     and the jam room exists, false in a Promise if the query succeeds and the
- *     jam room does not exist, or log the error response if the query fails
+ *     jam room does not exist, or log and return the error response if the query fails
  */
 function checkIfJamRoomExists(jamRoomName) {
   return firebase.database().ref('/jam_rooms/' + jamRoomName).once('value')

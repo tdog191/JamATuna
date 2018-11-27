@@ -22,64 +22,56 @@ function api(app) {
   app.post('/api/login', function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
-    /*
-    bcrypt.hash("bacon", null, null, function(err, hash) {
-      // Store hash in your password DB.
+
+    // Validate that the provided username exists
+    validation.checkIfUsernameExists(username).then(usernameExists => {
+      if(!usernameExists) {
+        // Redirect to error page when username does not exist
+        res.redirect('/html/login_username_does_not_exist.html');
+      } else {
+        // Validate that the password is correct
+        firebase.database().ref('/users/' + username).once('value')
+            .then(queryResponse => {
+              const passwordHash = queryResponse.val().password_hash;
+
+              bcrypt.compare(password, passwordHash, function (err, passwordsMatch) {
+                if (!passwordsMatch) {
+                  // Redirect to error page when password is incorrect
+                  res.redirect('/html/login_incorrect_password.html');
+                } else {
+                  // Redirect to success page on success
+                  res.redirect('/html/login_successful.html');
+                }
+              });
+            })
+            .catch(errorResponse => res.json(errorResponse));
+      }
     });
-
-// Load hash from your password DB.
-    bcrypt.compare("bacon", hash, function(err, res) {
-      // res == true
-    });
-    bcrypt.compare("veggies", hash, function(err, res) {
-      // res = false
-    });*/
-
-    console.log(req.body);
-    console.log(req.body.username);
-    console.log(req.body.password);
-
-    res.json({ test: "hello"});
   });
 
   app.post('/api/signup', function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    console.log(username);
-    console.log(password);
-
+    // Validate that the provided username does not exist
     validation.checkIfUsernameExists(username).then(usernameExists => {
       if(usernameExists) {
-        console.log('The username already exists.');
+        // Redirect to error page when username already exists
+        res.redirect('/html/signup_username_already_exists.html');
       } else {
-        console.log('The username doesn\'t already exist.');
-
+        // Hash password then create user in Firebase
         bcrypt.hash(password, null, null, function(err, hash) {
           firebase.database().ref('/users/' + username).set({
             password_hash: hash,
-            profilePicture: 'Docker-slacker',
-          });
+          }).then(response => res.redirect('/html/signup_successful.html'))
         });
       }
     });
-
-    /*
-    bcrypt.hash("bacon", null, null, function(err, hash) {
-      // Store hash in your password DB.
-    });
-
-// Load hash from your password DB.
-    bcrypt.compare("bacon", hash, function(err, res) {
-      // res == true
-    });
-    bcrypt.compare("veggies", hash, function(err, res) {
-      // res = false
-    });*/
-
-    res.json({ test: "hello"});
   });
 
+  // TODO: Implement logout
+
+  /*
   app.post('/api/logout', function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
@@ -90,6 +82,7 @@ function api(app) {
 
     res.json({ test: "hello"});
   });
+  */
 
   // Defines GET request to retrieve all jam rooms in Firebase
   app.get('/api/get_jam_rooms', function(req, res) {
@@ -103,7 +96,7 @@ function api(app) {
     const jamRoomName = req.body.jam_room_name;
     const ownerUsername = req.body.owner_username;
 
-    // Validate that the provided jam room exists
+    // Validate that the provided jam room does not exist
     validation.checkIfJamRoomExists(jamRoomName).then(jamRoomExists => {
       if(jamRoomExists) {
         // Redirect to error page when jam room already exists
@@ -116,13 +109,11 @@ function api(app) {
             res.redirect('/html/jam_room_owner_does_not_exist.html');
           } else {
             // Create jam room in Firebase
-            firebase.database().ref('/jam_rooms/' + jamRoomName).update({
+            firebase.database().ref('/jam_rooms/' + jamRoomName).set({
               members: [{username: ownerUsername}],
               owner: ownerUsername,
-            });
-
-            // Redirect to success page on success
-            res.redirect('/html/jam_room_successfully_created.html');
+            }).then(response => res.redirect('/html/jam_room_successfully_created.html'))
+            .catch(errorResponse => res.json(errorResponse));
           }
         });
       }
