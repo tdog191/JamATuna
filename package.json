@@ -2,6 +2,7 @@
   "name": "JamATuna",
   "version": "1.0.0",
   "dependencies": {
+    "bootstrap-slider": "^10.3.1",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
     "socket.io": "^2.1.1"
