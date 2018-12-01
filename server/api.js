@@ -97,6 +97,13 @@ function api(app) {
   });
   */
 
+  // Defines GET request to retrieve all users in Firebase
+  app.get('/api/get_users', function(req, res) {
+    firebase.database().ref('/users/').once('value')
+        .then(snapshot => res.json(snapshot.val()))
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
   // Defines GET request to retrieve all jam rooms in Firebase
   app.get('/api/get_jam_rooms', function(req, res) {
     firebase.database().ref('/jam_rooms/').once('value')
