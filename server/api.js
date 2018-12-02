@@ -53,6 +53,7 @@ function api(app) {
                 } else {
                   // Redirect to success page on success
                   res.redirect('/html/login_successful.html');
+                  //res.send({ username: username });
                 }
               });
             })
@@ -96,6 +97,25 @@ function api(app) {
     res.json({ test: "hello"});
   });
   */
+
+  // Defines GET request to retrieve all jam rooms in Firebase that have a
+  // given prefix (ignoring case)
+  app.get('/api/search', function(req, res) {
+    const query = req.query.search_bar.toLowerCase();
+
+    firebase.database().ref('/jam_rooms/').once('value')
+        .then(snapshot => {
+          const jamRooms = snapshot.val();
+
+          const results = Object.keys(jamRooms)
+              .filter(jamRoom =>
+                  new RegExp(`^${query}`).test(jamRoom.toLowerCase())
+              );
+
+          res.json(results);
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
 
   // Defines GET request to retrieve all users in Firebase
   app.get('/api/get_users', function(req, res) {

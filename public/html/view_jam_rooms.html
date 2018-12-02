@@ -17,6 +17,13 @@
     <div class="container">
       <div class="text-center">
         <h1>Active Jam Rooms</h1>
+        <form id="jam_room_search" method="get" action="">
+          <div class="form-group">
+            <label for="search_bar">Search Jam Room</label>
+            <input type="text" class="form-control" name="search_bar" id="search_bar" placeholder="Enter jam room name or username">
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
         <div class="list-group" id="active_jam_rooms"></div>
       </div>
     </div>

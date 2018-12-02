@@ -60,10 +60,15 @@ function validateFormOnSubmission(formID) {
   $('#' + formID).on('submit', function(event) {
     const form_data = $('#' + formID).serializeArray();
     let isValidForm = true;
+    let username = "";
 
     // Validate every field
     for (const input in form_data){
       const fieldName = form_data[input]['name'];
+
+      if(fieldName === 'username') {
+        username = form_data[input]['value'];
+      }
 
       if(!validateFieldIsNonempty(fieldName)) {
         isValidForm = false;
@@ -73,6 +78,8 @@ function validateFormOnSubmission(formID) {
     // Cancels the form submission if any field is invalid
     if(!isValidForm) {
       event.preventDefault();
+    } else {
+      sessionStorage.setItem('jamatuna_username', username);
     }
   });
 }
