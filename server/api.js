@@ -30,6 +30,14 @@ function api(app) {
    */
   app.use(bodyParser.json());
 
+  // TODO: Consider implementing server-side rendering
+
+  /*
+  app.set('views', __dirname); // general config
+  app.engine('html', require('ejs').renderFile);
+  app.set('view engine', 'html');
+  */
+
   // Defines POST request to let user log in to his/her account
   app.post('/api/login', function(req, res) {
     const username = req.body.username;
@@ -98,9 +106,93 @@ function api(app) {
   });
   */
 
+  app.post('/api/change_profile_picture', function(req, res) {
+    const username = req.body.username;
+    const newProfilePictureType = req.body.newProfilePictureType;
+
+    // Update the user's profile picture in Firebase
+    firebase.database().ref('/users/' + username)
+        .update({
+          profile_picture: newProfilePictureType,
+          profile_picture_data: null,
+        })
+        .then(response => res.json(response))
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  app.post('/api/upload_profile_picture', function(req, res) {
+    const username = req.body.username;
+    const newProfilePicture = req.body.newProfilePicture;
+
+    // Update the user's profile picture in Firebase
+    firebase.database().ref('/users/' + username)
+        .update({
+          profile_picture: 'other',
+          profile_picture_data: newProfilePicture,
+        })
+        .then(response => res.json(response))
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  app.get('/api/profile/:username', function(req, res) {
+    const username = req.params.username;
+
+    firebase.database().ref('/users/' + username).once('value')
+        .then(snapshot => {
+          const user = snapshot.val();
+          const profilePicture = user.profile_picture;
+          const profilePictureData = user.profile_picture_data;
+
+          res.json({
+            profilePicture: profilePicture,
+            profilePictureData: profilePictureData,
+          });
+        })
+        .catch(errorResponse => res.json(errorResponse));
+
+    /*
+    console.log(username);
+
+    res.render('\\signup_successful.html');
+
+    res.render('/signup_successful.html', { username: username }, function(error, html) {
+      res.send(html);
+    });
+
+    //res.json({ test: 'hello'});
+    res.sendFile(__dirname + '\\signup_successful.html', {}, function(err) {
+      if(err) {
+        next(err)
+      } else {
+        console.log('Sent: ', __dirname + '\\signup_successful.html');
+        next();
+      }
+    });
+    */
+  });
+
+  // Defines GET request to retrieve all users in Firebase that have a
+  // given prefix (ignoring case)
+  app.get('/api/user_search', function(req, res) {
+    const query = req.query.search_bar.toLowerCase();
+
+    firebase.database().ref('/users/').once('value')
+        .then(snapshot => {
+          const users = snapshot.val();
+
+          const results = Object.keys(users)
+              .filter(user =>
+                  new RegExp(`^${query}`).test(user.toLowerCase())
+              );
+
+          res.json(results);
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
   // Defines GET request to retrieve all jam rooms in Firebase that have a
   // given prefix (ignoring case)
-  app.get('/api/search', function(req, res) {
+  app.get('/api/jam_room_search', function(req, res) {
     const query = req.query.search_bar.toLowerCase();
 
     firebase.database().ref('/jam_rooms/').once('value')

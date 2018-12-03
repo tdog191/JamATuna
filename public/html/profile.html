@@ -23,9 +23,9 @@
       <div class="row top_margin_offset">
         <div class="col-md-4">
           <div class="text-center">
-            <img src="/images/jamatuna.png" id="profile-picture" width="300" height="250"/>
+            <img id="profile-picture" src="https://via.placeholder.com/300x250" width="300" height="250"/>
 
-            <h2>Thomas Warther</h2>
+            <h2 id="username"></h2>
 
             <a class="btn btn-primary btn-xs" href="#" role="button">Facebook</a>
             <a class="btn btn-primary btn-xs" href="#" role="button">Twitter</a>
@@ -50,20 +50,21 @@
 
             <!-- Settings Tab -->
             <div class="tab-pane top_margin_offset fade" id="Settings">
-              <form>
+              <form id="change-profile-picture" method="post" action="/api/change_profile_picture" enctype="application/x-www-form-urlencoded">
                 <div class="form-group">
                   <label for="selectProfileImage">Select Profile Image</label>
-                  <select class="form-control" id="selectProfileImage">
-                    <option>Orange Fish</option>
-                    <option>Blue Fish</option>
-                    <option>Clown Fish</option>
-                    <option>Tuna</option>
-                    <option selected>JamATuna</option>
-                    <option>Other</option>
+                  <select id="selectProfileImage" class="form-control">
+                    <option id="orange_fish" value="orange_fish">Orange Fish</option>
+                    <option id="blue_fish" value="blue_fish">Blue Fish</option>
+                    <option id="clown_fish" value="clown_fish">Clown Fish</option>
+                    <option id="tuna" value="tuna">Tuna</option>
+                    <option id="jamatuna" value="jamatuna">JamATuna</option>
+                    <option id="other" value="other">Other</option>
                   </select>
                 </div>
+                <button id="save_changes" type="submit" class="btn btn-primary">Save Changes</button>
               </form>
-              <form id="upload-profile-picture" action="#" method="POST" enctype="multipart/form-data" hidden>
+              <form id="upload-profile-picture" method="post" action="/api/upload_profile_picture" enctype="application/x-www-form-urlencoded" hidden>
                 <div class="form-group">
                   <label for="file">Upload Profile Picture</label>
                   <input type="file" class="form-control-file" id="file" />

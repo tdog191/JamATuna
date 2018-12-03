@@ -77,7 +77,7 @@ $(function() {
         })
         .join('&');
 
-    fetch(baseUrl + '/api/search?' + query)
+    fetch(baseUrl + '/api/jam_room_search?' + query)
         .then(response => response.json())
         .then(data => {
           let isBlueListEntry = true;
