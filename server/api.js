@@ -171,6 +171,23 @@ function api(app) {
     */
   });
 
+  app.get('/api/jam_room/:jamRoom', function(req, res) {
+    const jamRoom = req.params.jamRoom;
+
+    firebase.database().ref('/jam_rooms/' + jamRoom).once('value')
+        .then(snapshot => {
+          const jamRoom = snapshot.val();
+          const owner = jamRoom.owner;
+          const members = jamRoom.members;
+
+          res.json({
+            owner: owner,
+            members: members,
+          });
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
   // Defines GET request to retrieve all users in Firebase that have a
   // given prefix (ignoring case)
   app.get('/api/user_search', function(req, res) {
