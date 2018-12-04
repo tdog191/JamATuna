@@ -164,7 +164,7 @@ function api(app) {
     firebase.database().ref('/jam_rooms/' + jamRoom + '/chat_history/').once('value')
         .then(snapshot => {
           let chatHistory = snapshot.val();
-
+          
           // If a chat history already exists for this jam room,
           // return it.  Otherwise, return an empty array.
           if(chatHistory) {
