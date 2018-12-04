@@ -17,6 +17,13 @@
     <div class="container">
       <div class="text-center">
         <h1>Users</h1>
+        <form id="user_search" method="get" action="">
+          <div class="form-group">
+            <label for="search_bar">Search User</label>
+            <input type="text" class="form-control" name="search_bar" id="search_bar" placeholder="Enter username">
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
         <div class="list-group" id="users"></div>
       </div>
     </div>

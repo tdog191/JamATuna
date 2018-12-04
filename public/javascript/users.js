@@ -25,27 +25,59 @@ function appendUserListEntry(username, colorClassAttribute) {
     colorClassAttribute,
   ];
 
-  $('#users').append(
-      $(`<a href="profile.html" class="${classAttribute.join(' ')}">`)
-          .text(username));
+  const userListEntry =
+      $(`<a href="profile.html" class="${classAttribute.join(' ')}">`);
+
+  userListEntry.text(username);
+  userListEntry.on('click', function(event) {
+    sessionStorage.setItem('profile_username', username);
+  });
+
+  $('#users').append(userListEntry);
 }
 
-window.onload = function() {
-  fetch(baseUrl + '/api/get_users')
-      .then(response => response.json())
-      .then(data => {
-        let isBlueListEntry = true;
+/**
+ * Defines the overall jquery functionality of the user list webpage:
+ * forming and sending a GET request to the server to retrieve all users
+ * whose names have the provided prefix (ignoring case), and displaying the
+ * retrieved results on the page.
+ */
+$(function() {
+  $('#user_search').on('submit', function(event) {
+    // Prevent the user search form from submitting
+    event.preventDefault();
 
-        // Display every retrieved user, alternating between light-blue
-        // and green colors for each user list entry
-        for(const user in data) {
-          if(isBlueListEntry) {
-            appendUserListEntry(user, 'list-group-item-info');
-          } else {
-            appendUserListEntry(user, 'list-group-item-success');
+    $('#users').empty();
+
+    const form_data = $('#search_bar').serializeArray();
+
+    const query = Object.keys(form_data)
+        .map(key => {
+          const fieldKey = form_data[key]['name'];
+          const fieldValue = form_data[key]['value'];
+
+          return encodeURIComponent(fieldKey) + '=' + encodeURIComponent(fieldValue);
+        })
+        .join('&');
+
+    fetch(baseUrl + '/api/user_search?' + query)
+        .then(response => response.json())
+        .then(data => {
+          let isBlueListEntry = true;
+
+          // Display every retrieved user, alternating between light-blue
+          // and green colors for each user list entry
+          for(let index=0; index<data.length; index++) {
+            const user = data[index];
+
+            if(isBlueListEntry) {
+              appendUserListEntry(user, 'list-group-item-info');
+            } else {
+              appendUserListEntry(user, 'list-group-item-success');
+            }
+
+            isBlueListEntry = !isBlueListEntry;
           }
-
-          isBlueListEntry = !isBlueListEntry;
-        }
-      });
-};
+        });
+  })
+});

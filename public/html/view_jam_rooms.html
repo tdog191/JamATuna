@@ -16,8 +16,50 @@
   <body>
     <div class="container">
       <div class="text-center">
-        <h1>Active Jam Rooms</h1>
-        <div class="list-group" id="active_jam_rooms"></div>
+        <h1>Jam Rooms</h1>
+        <a class="btn btn-primary btn-md button" href="/html/create_jam_room.html" role="button">Create Jam Room</a>
+        <div>
+          <!--
+            Form to search and display jam rooms with names that have the
+            provided prefix (ignoring case)
+          -->
+          <form id="search_by_name" method="get" action="">
+            <div class="form-group">
+              <label for="search_by_name_bar">Search by Name</label>
+              <input type="text" class="form-control" name="search_by_name_bar" id="search_by_name_bar" placeholder="Enter jam room name">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          <div class="list-group" id="jam_rooms_by_name"></div>
+        </div>
+        <div>
+          <!--
+            Form to search and display jam rooms with owner usernames that have
+            the provided prefix (ignoring case)
+          -->
+          <form id="search_by_owner" method="get" action="">
+            <div class="form-group">
+              <label for="search_by_owner_bar">Search by Owner</label>
+              <input type="text" class="form-control" name="search_by_owner_bar" id="search_by_owner_bar" placeholder="Enter owner username">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          <div class="list-group" id="jam_rooms_by_owner"></div>
+        </div>
+        <div>
+          <!--
+            Form to search and display jam rooms with at least as many members
+            as the provided number
+          -->
+          <form id="search_by_minimum_number_of_members" method="get" action="">
+            <div class="form-group">
+              <label for="search_by_minimum_number_of_members_bar">Search by Minimum Number of Members</label>
+              <input type="text" class="form-control" name="search_by_minimum_number_of_members_bar" id="search_by_minimum_number_of_members_bar" placeholder="Enter minimum number of members">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          <div class="list-group" id="jam_rooms_by_minimum_number_of_members"></div>
+        </div>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

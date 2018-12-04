@@ -30,6 +30,14 @@ function api(app) {
    */
   app.use(bodyParser.json());
 
+  // TODO: Consider implementing server-side rendering
+
+  /*
+  app.set('views', __dirname); // general config
+  app.engine('html', require('ejs').renderFile);
+  app.set('view engine', 'html');
+  */
+
   // Defines POST request to let user log in to his/her account
   app.post('/api/login', function(req, res) {
     const username = req.body.username;
@@ -53,6 +61,7 @@ function api(app) {
                 } else {
                   // Redirect to success page on success
                   res.redirect('/html/login_successful.html');
+                  //res.send({ username: username });
                 }
               });
             })
@@ -82,20 +91,171 @@ function api(app) {
     });
   });
 
-  // TODO: Implement logout
-
-  /*
-  app.post('/api/logout', function(req, res) {
+  app.post('/api/change_profile_picture', function(req, res) {
     const username = req.body.username;
-    const password = req.body.password;
+    const newProfilePictureType = req.body.newProfilePictureType;
 
-    console.log(req.body);
-    console.log(req.body.username);
-    console.log(req.body.password);
-
-    res.json({ test: "hello"});
+    // Update the user's profile picture in Firebase
+    firebase.database().ref('/users/' + username)
+        .update({
+          profile_picture: newProfilePictureType,
+          profile_picture_data: null,
+        })
+        .then(response => res.json(response))
+        .catch(errorResponse => res.json(errorResponse));
   });
-  */
+
+  app.post('/api/upload_profile_picture', function(req, res) {
+    const username = req.body.username;
+    const newProfilePicture = req.body.newProfilePicture;
+
+    // Update the user's profile picture in Firebase
+    firebase.database().ref('/users/' + username)
+        .update({
+          profile_picture: 'other',
+          profile_picture_data: newProfilePicture,
+        })
+        .then(response => res.json(response))
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  // Defines GET request to retrieve a user's profile
+  // picture and its data from Firebase
+  app.get('/api/profile/:username', function(req, res) {
+    const username = req.params.username;
+
+    firebase.database().ref('/users/' + username).once('value')
+        .then(snapshot => {
+          const user = snapshot.val();
+          const profilePicture = user.profile_picture;
+          const profilePictureData = user.profile_picture_data;
+
+          res.json({
+            profilePicture: profilePicture,
+            profilePictureData: profilePictureData,
+          });
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  // Defines GET request to retrieve a jam room's
+  // owner and member list from Firebase
+  app.get('/api/jam_room/:jamRoom', function(req, res) {
+    const jamRoom = req.params.jamRoom;
+
+    firebase.database().ref('/jam_rooms/' + jamRoom).once('value')
+        .then(snapshot => {
+          const jamRoom = snapshot.val();
+          const owner = jamRoom.owner;
+          const members = jamRoom.members;
+
+          res.json({
+            owner: owner,
+            members: members,
+          });
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  // Defines GET request to retrieve a jam room's chat history from Firebase
+  app.get('/api/get_chat_history/:jamRoom', function(req, res) {
+    const jamRoom = req.params.jamRoom;
+
+    firebase.database().ref('/jam_rooms/' + jamRoom + '/chat_history/').once('value')
+        .then(snapshot => {
+          let chatHistory = snapshot.val();
+          
+          // If a chat history already exists for this jam room,
+          // return it.  Otherwise, return an empty array.
+          if(chatHistory) {
+            chatHistory = Object.values(chatHistory);
+          } else {
+            chatHistory = [];
+          }
+          
+          res.json({ chatHistory: chatHistory });
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  // Defines GET request to retrieve all users in Firebase that have a
+  // given prefix (ignoring case)
+  app.get('/api/user_search', function(req, res) {
+    const query = req.query.search_bar.toLowerCase();
+
+    firebase.database().ref('/users/').once('value')
+        .then(snapshot => {
+          const users = snapshot.val();
+
+          const results = Object.keys(users)
+              .filter(user =>
+                  new RegExp(`^${query}`).test(user.toLowerCase())
+              );
+
+          res.json(results);
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  // Defines GET request to retrieve all jam rooms in Firebase that have a
+  // given prefix (ignoring case)
+  app.get('/api/jam_room_search', function(req, res, next) {
+    let nameQuery = null;
+    if(req.query.search_by_name_bar) {
+      nameQuery = req.query.search_by_name_bar.toLowerCase();
+    }
+
+    let ownerQuery = null;
+    if(req.query.search_by_owner_bar) {
+      ownerQuery = req.query.search_by_owner_bar.toLowerCase();
+    }
+
+    const minimumMemberQuery = req.query.search_by_minimum_number_of_members_bar;
+    let errorMessage = null;
+
+    firebase.database().ref('/jam_rooms/').once('value')
+        .then(snapshot => {
+          const jamRooms = snapshot.val();
+          let results = null;
+
+          if(nameQuery) {
+            results = Object.keys(jamRooms)
+                .filter(jamRoom =>
+                    new RegExp(`^${nameQuery}`).test(jamRoom.toLowerCase())
+                );
+          } else if(ownerQuery) {
+            results = Object.entries(jamRooms)
+                .filter(([jamRoom, jamRoomData]) => {
+                    return new RegExp(`^${ownerQuery}`).test(jamRoomData.owner.toLowerCase());
+                })
+                .map(entry => entry[0]);
+          } else if(minimumMemberQuery) {
+            if(isNaN(minimumMemberQuery)) {
+              // Minimum member query is not a number, so send 400 response
+              errorMessage = 'Minimum member query is not a number';
+            }
+
+            results = Object.entries(jamRooms)
+                .filter(([jamRoom, jamRoomData]) =>
+                   Object.keys(jamRoomData.members).length >= minimumMemberQuery
+                )
+                .map(entry => entry[0]);
+          } else {
+            // No query provided, so send 400 response
+            errorMessage = 'No query provided';
+          }
+
+          if(!errorMessage) {
+            res.json(results);
+          } else {
+            res.send({
+              status: 400,
+              errorMessage: errorMessage,
+            });
+          }
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
 
   // Defines GET request to retrieve all users in Firebase
   app.get('/api/get_users', function(req, res) {
