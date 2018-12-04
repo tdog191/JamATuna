@@ -6,6 +6,8 @@ import Drums from "./drums.js";
 //=====================================================================================================================
 
 var context;
+var jamRoom;
+var socket;
 var pluck;
 var bass;
 var lead;
@@ -28,6 +30,13 @@ window.onload = function() {
   } catch (e) {
     alert("Web Audio API is not supported in this browser");
   }
+
+  // Initialize socket io
+  const baseUrl = window.location.origin;
+  jamRoom = sessionStorage.getItem('jam_room');
+  socket = io.connect(baseUrl + '/audio');
+
+  socket.emit('joinAudioRoom', jamRoom);
 
   pluck = new Instrument(context, 0.2, {
     1: "/pluck/pluck-01.mp3",
@@ -119,41 +128,38 @@ window.onload = function() {
 //=====================================================================================================================
 
 $(function() {
-  // Initialize socket io
-  var socket = io();
-
   // Set note button event handlers
   $("#pluck").on("click", ".btn", function() {
     var freq = $(this).attr("id");
-    socket.emit("audio message", { instrument: "pluck", freq: freq });
+    socket.emit("sendAudioMessage", jamRoom, { instrument: "pluck", freq: freq });
     pluck.updateFrequency($(this).attr("id"));
     pluck.playSound();
   });
 
   $("#bass").on("click", ".btn", function() {
     var freq = $(this).attr("id");
-    socket.emit("audio message", { instrument: "bass", freq: freq });
+    socket.emit("sendAudioMessage", jamRoom, { instrument: "bass", freq: freq });
     bass.updateFrequency($(this).attr("id"));
     bass.playSound();
   });
 
   $("#chord").on("click", ".btn", function() {
     var freq = $(this).attr("id");
-    socket.emit("audio message", { instrument: "chord", freq: freq });
+    socket.emit("sendAudioMessage", jamRoom, { instrument: "chord", freq: freq });
     chord.updateFrequency($(this).attr("id"));
     chord.playSound();
   });
 
   $("#lead").on("click", ".btn", function() {
     var freq = $(this).attr("id");
-    socket.emit("audio message", { instrument: "lead", freq: freq });
+    socket.emit("sendAudioMessage", jamRoom, { instrument: "lead", freq: freq });
     lead.updateFrequency($(this).attr("id"));
     lead.playSound();
   });
 
   $("#piano").on("click", ".btn", function() {
     var freq = $(this).attr("id");
-    socket.emit("audio message", { instrument: "piano", freq: freq });
+    socket.emit("sendAudioMessage", jamRoom, { instrument: "piano", freq: freq });
     piano.updateFrequency($(this).attr("id"));
     piano.playSound();
   });
@@ -233,7 +239,7 @@ $(function() {
   });
 
   // Handle audio messages received from the server
-  socket.on("audio message", function(data) {
+  socket.on("playAudioMessage", function(data) {
     switch (data["instrument"]) {
       case "pluck":
         pluck.updateFrequency(data["freq"]);
