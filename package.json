@@ -8,6 +8,8 @@
     "express": "^4.16.4",
     "firebase": "^5.5.9",
     "mocha": "^5.2.0",
+    "normalize-range": "^0.1.2",
+    "phaser": "^2.4.9",
     "requirejs": "^2.3.6",
     "socket.io": "^2.1.1"
   },
