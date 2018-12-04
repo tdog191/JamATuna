@@ -91,21 +91,6 @@ function api(app) {
     });
   });
 
-  // TODO: Implement logout
-
-  /*
-  app.post('/api/logout', function(req, res) {
-    const username = req.body.username;
-    const password = req.body.password;
-
-    console.log(req.body);
-    console.log(req.body.username);
-    console.log(req.body.password);
-
-    res.json({ test: "hello"});
-  });
-  */
-
   app.post('/api/change_profile_picture', function(req, res) {
     const username = req.body.username;
     const newProfilePictureType = req.body.newProfilePictureType;
@@ -134,6 +119,8 @@ function api(app) {
         .catch(errorResponse => res.json(errorResponse));
   });
 
+  // Defines GET request to retrieve a user's profile
+  // picture and its data from Firebase
   app.get('/api/profile/:username', function(req, res) {
     const username = req.params.username;
 
@@ -149,28 +136,10 @@ function api(app) {
           });
         })
         .catch(errorResponse => res.json(errorResponse));
-
-    /*
-    console.log(username);
-
-    res.render('\\signup_successful.html');
-
-    res.render('/signup_successful.html', { username: username }, function(error, html) {
-      res.send(html);
-    });
-
-    //res.json({ test: 'hello'});
-    res.sendFile(__dirname + '\\signup_successful.html', {}, function(err) {
-      if(err) {
-        next(err)
-      } else {
-        console.log('Sent: ', __dirname + '\\signup_successful.html');
-        next();
-      }
-    });
-    */
   });
 
+  // Defines GET request to retrieve a jam room's
+  // owner and member list from Firebase
   app.get('/api/jam_room/:jamRoom', function(req, res) {
     const jamRoom = req.params.jamRoom;
 
@@ -184,6 +153,27 @@ function api(app) {
             owner: owner,
             members: members,
           });
+        })
+        .catch(errorResponse => res.json(errorResponse));
+  });
+
+  // Defines GET request to retrieve a jam room's chat history from Firebase
+  app.get('/api/get_chat_history/:jamRoom', function(req, res) {
+    const jamRoom = req.params.jamRoom;
+
+    firebase.database().ref('/jam_rooms/' + jamRoom + '/chat_history/').once('value')
+        .then(snapshot => {
+          let chatHistory = snapshot.val();
+
+          // If a chat history already exists for this jam room,
+          // return it.  Otherwise, return an empty array.
+          if(chatHistory) {
+            chatHistory = Object.values(chatHistory);
+          } else {
+            chatHistory = [];
+          }
+          
+          res.json({ chatHistory: chatHistory });
         })
         .catch(errorResponse => res.json(errorResponse));
   });

@@ -15,10 +15,26 @@ window.onload = function() {
   const jamRoom = sessionStorage.getItem('jam_room');
   const socket = io.connect(baseUrl + '/chat');
 
-  socket.emit('joinChatRoom', jamRoom);
+  fetch(baseUrl + '/api/get_chat_history/' + jamRoom)
+      .then(response => response.json())
+      .then(data => {
+        const chatHistory = data.chatHistory;
 
-  broadcastMessage(socket, jamRoom);
-  displayMessage(socket);
+        // Display every message in the chat history
+        for(let index=0; index<chatHistory.length; index++) {
+          const username = chatHistory[index].username;
+          const message = chatHistory[index].message;
+
+          const displayMessage = `${username}: ${message}`;
+
+          $('#messages').append($('<li>').text(displayMessage));
+        }
+
+        // Join the chat room and define the socket handlers
+        socket.emit('joinChatRoom', jamRoom);
+        broadcastMessage(socket, jamRoom);
+        displayMessage(socket);
+      });
 };
 
 /**
@@ -30,7 +46,7 @@ function broadcastMessage(socket, jamRoom) {
     const username = $('#username-box').val();
     const message = $('#message-box').val();
 
-    socket.emit('chat message', jamRoom, username, message);
+    socket.emit('chatMessage', jamRoom, username, message);
     $('#message-box').val('');
 
     return false;
@@ -42,7 +58,7 @@ function broadcastMessage(socket, jamRoom) {
  * the chat webpage.
  */
 function displayMessage(socket) {
-  socket.on('chat message', function(msg) {
+  socket.on('chatMessage', function(msg) {
     $('#messages').append($('<li>').text(msg));
   });
 }

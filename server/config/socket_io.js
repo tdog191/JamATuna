@@ -16,7 +16,7 @@
  *
  * @param io The server's socket.io instance to use to define event handlers
  */
-function configureChatFunctionality(io) {
+function configureChatFunctionality(io, firebase) {
   io.of('/chat').on('connection', function(socket) {
     console.log('User connected to chat');
 
@@ -29,7 +29,7 @@ function configureChatFunctionality(io) {
 
     // Log every chat message sent by a user and send
     // it to the other users in the user's jam room
-    socket.on('chat message', function(jamRoom, username, message) {
+    socket.on('chatMessage', function(jamRoom, username, message) {
       console.log('Chat message received');
       console.log('Jam Room:', jamRoom);
       console.log('Username:', username);
@@ -37,7 +37,32 @@ function configureChatFunctionality(io) {
 
       const displayMessage = `${username}: ${message}`;
 
-      io.of('/chat').in(jamRoom).emit('chat message', displayMessage);
+      io.of('/chat').in(jamRoom).emit('chatMessage', displayMessage);
+
+      // Acquire the current chat history of the jam
+      // room to append the new chat message to it
+      firebase.database().ref('/jam_rooms/' + jamRoom + '/chat_history/').once('value')
+          .then(snapshot => {
+            let chatHistory = snapshot.val();
+            const chatMessage = {
+              username: username,
+              message: message,
+            };
+
+            // If a chat history already exists for this jam room, append the
+            // new chat message to it.  Otherwise, create a new chat history
+            // with the new chat message included.
+            if(chatHistory) {
+              chatHistory.push(chatMessage);
+            } else {
+              chatHistory = [chatMessage];
+            }
+
+            // Update the chat history of the jam room in Firebase
+            firebase.database().ref('/jam_rooms/' + jamRoom).update({
+              chat_history: chatHistory,
+            });
+          });
     });
 
     // Log when a socket disconnects from the server
@@ -90,7 +115,9 @@ function configureAudioFunctionality(io) {
  * @param io The server's socket.io instance to use to define event handlers
  */
 function configureSocketIo(io) {
-  configureChatFunctionality(io);
+  const firebase = require('firebase');
+
+  configureChatFunctionality(io, firebase);
   configureAudioFunctionality(io);
 }
 
