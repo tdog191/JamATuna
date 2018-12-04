@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Preview - Menu</title>
+    <script src="../javascript/vendor/phaser.min.js"></script>
+    <script src="../javascript/vendor/slick-ui.min.js"></script>
+  </head>
+  <body>
+    <div id="gameContainer"></div>
+    <script type="text/javascript">
+      // Function that scales between two ranges
+      const scale = (num, in_min, in_max, out_min, out_max) => {
+        return Math.floor(((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min);
+      };
+
+      // Window constants
+      var baseUrl = window.location.origin;
+      const width = window.innerWidth * window.devicePixelRatio - 20;
+      const height = window.innerHeight * window.devicePixelRatio - 20;
+
+      // Create Phaser game engine instance
+      var game = new Phaser.Game(width, height, Phaser.CANVAS, "gameContainer", {
+        preload: preload,
+        create: create,
+        update: update
+      });
+
+      // Global client variables
+      var slickUI;
+      var grid;
+      var cursor;
+
+      // Function responsible for loading game assets
+      function preload() {
+        slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+        game.load.image("menu-button", "../ui/menu.png");
+        game.load.image("panel", "../images/panel.png");
+        game.load.image("cursor", "../ui/kenney/images/grey_circle.png");
+        slickUI.load("../ui/kenney/kenney.json");
+        Phaser.ScaleManager.prototype.setScreenSize = Phaser.ScaleManager.prototype.updateLayout;
+      }
+
+      // Creates the user interface
+      function create() {
+        game.stage.backgroundColor = "#FFFFFF";
+
+        // Grid sprite
+        grid = game.add.sprite(width / 2, height / 2, "panel");
+        grid.anchor.setTo(0.5);
+
+        // Cursor sprite
+        cursor = game.add.sprite(game.world.centerX, game.world.centerY, "cursor");
+        cursor.anchor.setTo(0.5);
+        cursor.scale.setTo(0.75, 0.75);
+
+        // Create panel, cancel button, and menu text
+        var button, panel, menuButton;
+        slickUI.add((panel = new SlickUI.Element.Panel(game.width - 156, 8, 150, game.height - 16)));
+        panel.add(new SlickUI.Element.Text(10, 0, "Menu")).centerHorizontally().text.alpha = 0.5;
+        panel.add((button = new SlickUI.Element.Button(0, game.height - 76, 140, 40)));
+        button.add(new SlickUI.Element.Text(0, 0, "Close")).center();
+
+        // Create hambuger button
+        slickUI.add(
+          (menuButton = new SlickUI.Element.DisplayObject(game.width - 45, 8, game.make.sprite(0, 0, "menu-button")))
+        );
+
+        // Create sliders
+        panel.add(new SlickUI.Element.Slider(15, 50, panel.width - 30));
+        panel.add(new SlickUI.Element.Slider(15, 100, panel.width - 30));
+        panel.add(new SlickUI.Element.Slider(15, 150, panel.width - 30));
+        panel.add(new SlickUI.Element.Slider(15, 200, panel.width - 30));
+        panel.add(new SlickUI.Element.Slider(15, 250, panel.width - 30));
+
+        // Hide panel by default
+        panel.visible = false;
+        var basePosition = panel.x;
+
+        // Create event handler for menu button
+        menuButton.inputEnabled = true;
+        menuButton.input.useHandCursor = true;
+        menuButton.events.onInputDown.add(function() {
+          if (panel.visible) {
+            return;
+          }
+          panel.visible = true;
+          panel.x = basePosition + 156;
+          game.add
+            .tween(panel)
+            .to({ x: basePosition }, 500, Phaser.Easing.Exponential.Out, true)
+            .onComplete.add(function() {
+              menuButton.visible = false;
+            });
+          slickUI.container.displayGroup.bringToTop(panel.container.displayGroup);
+        }, this);
+
+        // Create event handler for cancel button
+        button.events.onInputUp.add(function() {
+          game.add
+            .tween(panel)
+            .to({ x: basePosition + 156 }, 500, Phaser.Easing.Exponential.Out, true)
+            .onComplete.add(function() {
+              panel.visible = false;
+              panel.x -= 156;
+            });
+          menuButton.visible = true;
+        });
+      }
+
+      // Updates the user interface
+      function update() {
+        if (game.input.activePointer.leftButton.isDown) {
+          const xPos = game.input.mousePointer.x - grid.x + grid.width / 2;
+          const yPos = game.input.mousePointer.y - grid.y + grid.height / 2;
+          if (xPos >= 0 && yPos >= 0 && xPos < grid.width && yPos < grid.height) {
+            cursor.visible = true;
+            cursor.x = game.input.mousePointer.x;
+            cursor.y = game.input.mousePointer.y;
+            console.log("X: " + scale(xPos, 0, grid.width, 1, 12) + ", Y: " + scale(yPos, 0, grid.height, 1, 6));
+          }
+        } else {
+          cursor.visible = false;
+        }
+      }
+    </script>
+  </body>
+</html>
