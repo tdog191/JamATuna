@@ -192,19 +192,60 @@ function api(app) {
 
   // Defines GET request to retrieve all jam rooms in Firebase that have a
   // given prefix (ignoring case)
-  app.get('/api/jam_room_search', function(req, res) {
-    const query = req.query.search_bar.toLowerCase();
+  app.get('/api/jam_room_search', function(req, res, next) {
+    let nameQuery = null;
+    if(req.query.search_by_name_bar) {
+      nameQuery = req.query.search_by_name_bar.toLowerCase();
+    }
+
+    let ownerQuery = null;
+    if(req.query.search_by_owner_bar) {
+      ownerQuery = req.query.search_by_owner_bar.toLowerCase();
+    }
+
+    const minimumMemberQuery = req.query.search_by_minimum_number_of_members_bar;
+    let errorMessage = null;
 
     firebase.database().ref('/jam_rooms/').once('value')
         .then(snapshot => {
           const jamRooms = snapshot.val();
+          let results = null;
 
-          const results = Object.keys(jamRooms)
-              .filter(jamRoom =>
-                  new RegExp(`^${query}`).test(jamRoom.toLowerCase())
-              );
+          if(nameQuery) {
+            results = Object.keys(jamRooms)
+                .filter(jamRoom =>
+                    new RegExp(`^${nameQuery}`).test(jamRoom.toLowerCase())
+                );
+          } else if(ownerQuery) {
+            results = Object.entries(jamRooms)
+                .filter(([jamRoom, jamRoomData]) => {
+                    return new RegExp(`^${ownerQuery}`).test(jamRoomData.owner.toLowerCase());
+                })
+                .map(entry => entry[0]);
+          } else if(minimumMemberQuery) {
+            if(isNaN(minimumMemberQuery)) {
+              // Minimum member query is not a number, so send 400 response
+              errorMessage = 'Minimum member query is not a number';
+            }
 
-          res.json(results);
+            results = Object.entries(jamRooms)
+                .filter(([jamRoom, jamRoomData]) =>
+                   Object.keys(jamRoomData.members).length >= minimumMemberQuery
+                )
+                .map(entry => entry[0]);
+          } else {
+            // No query provided, so send 400 response
+            errorMessage = 'No query provided';
+          }
+
+          if(!errorMessage) {
+            res.json(results);
+          } else {
+            res.send({
+              status: 400,
+              errorMessage: errorMessage,
+            });
+          }
         })
         .catch(errorResponse => res.json(errorResponse));
   });
