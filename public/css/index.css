@@ -49,6 +49,21 @@ li {
   justify-content: center;
 }
 
+/*
+ * Set the color of the media buttons to very dark gray (#292929) when the mouse
+ * hovers over them, and set the transition duration to .5 seconds
+ */
+li:hover {
+  color: #292929 !important;
+  border: 1px solid #292929 !important;
+  transition: .5s !important;
+}
+
+/* Ignore the default blue hyperlink color for the social media buttons */
+a {
+  color: inherit;
+}
+
 /* Define colors for each social media button and its corresponding circle */
 
 #facebook {
@@ -61,22 +76,13 @@ li {
   border: 1px solid #00CCFF;
 }
 
-#instagram {
-  color: #FF00FF;
-  border: 1px solid #FF00FF;
-}
-
 #reddit {
   color: #FF0000;
   border: 1px solid #FF0000;
 }
 
-/*
- * Set the color of the media buttons to very dark gray (#292929) when the mouse
- * hovers over them, and set the transition duration to .5 seconds
- */
-li:hover {
-  color: #292929 !important;
-  border: 1px solid #292929 !important;
-  transition: .5s !important;
+#google_plus {
+  filter: brightness(0.70);
+  color: #FF0000;
+  border: 1px solid #FF0000;
 }
