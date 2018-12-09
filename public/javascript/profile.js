@@ -92,11 +92,12 @@ $(function() {
     const reader = new FileReader();
 
     reader.onload = function(image) {
-      const newProfilePicture = image.target.result;
+      const newProfilePictureData = image.target.result;
 
       const data = {
         username: username,
-        newProfilePicture: newProfilePicture,
+        newProfilePictureType: 'other',
+        newProfilePictureData: newProfilePictureData,
       };
 
       const postRequestOptions = {
@@ -107,7 +108,7 @@ $(function() {
         body: JSON.stringify(data),
       };
 
-      fetch(baseUrl + '/api/upload_profile_picture', postRequestOptions)
+      fetch(baseUrl + '/api/change_profile_picture', postRequestOptions)
           .then(successResponse => {
             console.log(successResponse);
 
