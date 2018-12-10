@@ -13,8 +13,11 @@ function defineLoginAPI(app, firebaseHelper, validation, bcrypt) {
     // Validate that the provided username exists
     validation.checkIfUsernameExists(username).then(usernameExists => {
       if(!usernameExists) {
-        // Redirect to error page when username does not exist
-        res.redirect('/html/login_username_does_not_exist.html');
+        // Send error message when username does not exist
+        res.json({
+          success: false,
+          errorMessage: 'Username does not exist.  Try again.',
+        });
       } else {
         // Validate that the password is correct
         const parentNodeReference = '/users/' + username;
@@ -23,11 +26,17 @@ function defineLoginAPI(app, firebaseHelper, validation, bcrypt) {
 
           bcrypt.compare(password, passwordHash, function (err, passwordsMatch) {
             if (!passwordsMatch) {
-              // Redirect tfio error page when password is incorrect
-              res.redirect('/html/login_incorrect_password.html');
+              // Send error message when password is incorrect
+              res.json({
+                success: false,
+                errorMessage: 'Incorrect password.  Try again.',
+              });
             } else {
-              // Redirect to success page on success
-              res.redirect('/html/login_successful.html');
+              // Send redirect URL of success page on success
+              res.json({
+                success: true,
+                redirectURL: '/html/login_successful.html',
+              });
             }
           });
         };

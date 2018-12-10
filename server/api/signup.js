@@ -13,8 +13,11 @@ function defineSignupAPI(app, firebaseHelper, validation, bcrypt) {
     // Validate that the provided username does not exist
     validation.checkIfUsernameExists(username).then(usernameExists => {
       if(usernameExists) {
-        // Redirect to error page when username already exists
-        res.redirect('/html/signup_username_already_exists.html');
+        // Send error message when username already exists
+        res.json({
+          success: false,
+          errorMessage: 'Username already exists.  Try again.',
+        });
       } else {
         // Hash password then create user in Firebase
         bcrypt.hash(password, null, null, function(err, hash) {
@@ -22,7 +25,13 @@ function defineSignupAPI(app, firebaseHelper, validation, bcrypt) {
           const data = {
             password_hash: hash,
           };
-          const successCallback = (response) => res.redirect('/html/signup_successful.html');
+          const successCallback = function(response) {
+            // Send redirect URL of success page on success
+            res.json({
+              success: true,
+              redirectURL: '/html/signup_successful.html',
+            });
+          };
 
           firebaseHelper.setData(parentNodeReference, data, successCallback, res);
         });

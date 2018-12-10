@@ -5,6 +5,8 @@
 
 'use strict';
 
+const baseUrl = window.location.origin;
+
 /**
  * Defines the 'keyup' and 'blur' event handlers for each field of the given
  * form to validate a field as the user releases a key and the field goes out
@@ -58,17 +60,15 @@ function validateFieldIsNonempty(fieldName) {
  */
 function validateFormOnSubmission(formID) {
   $('#' + formID).on('submit', function(event) {
+    // Prevent the login form from submitting by default
+    event.preventDefault();
+
     const form_data = $('#' + formID).serializeArray();
     let isValidForm = true;
-    let username = "";
 
     // Validate every field
     for (const input in form_data){
       const fieldName = form_data[input]['name'];
-
-      if(fieldName === 'username') {
-        username = form_data[input]['value'];
-      }
 
       if(!validateFieldIsNonempty(fieldName)) {
         isValidForm = false;
@@ -77,10 +77,45 @@ function validateFormOnSubmission(formID) {
 
     // Cancels the form submission if any field is invalid
     if(!isValidForm) {
-      event.preventDefault();
-    } else {
-      sessionStorage.setItem('jamatuna_username', username);
+      return;
     }
+
+    // Prepare POST request to server to login
+    const username = $('#username').val();
+    const password = $('#password').val();
+
+    const data = {
+      username: username,
+      password: password,
+    };
+
+    const postRequestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    };
+
+    // Post username and password to server to login, redirecting to success
+    // page on success and displaying the received error message on failure
+    fetch(baseUrl + '/api/login', postRequestOptions)
+        .then(response => response.json())
+        .then(data => {
+          if(data.success) {
+            sessionStorage.setItem('jamatuna_username', username);
+
+            window.location.replace(baseUrl + data.redirectURL);
+          } else {
+            alert(data.errorMessage);
+          }
+        })
+        .catch(errorResponse => {
+          // Log error response and reload page in case of extreme failure
+          console.log(errorResponse);
+
+          location.reload();
+        });
   });
 }
 
