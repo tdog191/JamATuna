@@ -61,14 +61,20 @@ function defineJamRoomAPI(app, firebaseHelper, validation) {
     // Validate that the provided jam room does not exist
     validation.checkIfJamRoomExists(jamRoomName).then(jamRoomExists => {
       if(jamRoomExists) {
-        // Redirect to error page when jam room already exists
-        res.redirect('/html/jam_room_already_exists.html');
+        // Send error message when jam room already exists
+        res.json({
+          success: false,
+          errorMessage: 'Jam room already exists.  Try again.',
+        });
       } else {
         // Validate that the provided owner username exists
         validation.checkIfUsernameExists(ownerUsername).then(usernameExists => {
           if(!usernameExists) {
-            // Redirect to error page when owner username does not exist
-            res.redirect('/html/jam_room_owner_does_not_exist.html');
+            // Send error message when owner username does not exist
+            res.json({
+              success: false,
+              errorMessage: 'Owner username does not exist.  Try again.',
+            });
           } else {
             // Create jam room in Firebase
             const parentReference = '/jam_rooms/' + jamRoomName;
@@ -76,8 +82,13 @@ function defineJamRoomAPI(app, firebaseHelper, validation) {
               members: [{username: ownerUsername}],
               owner: ownerUsername,
             };
-            const successCallback = (response) =>
-                res.redirect('/html/jam_room_successfully_created.html');
+            const successCallback = function(response) {
+              // Send redirect URL of success page on success
+              res.json({
+                success: true,
+                redirectURL: '/html/jam_room_successfully_created.html',
+              });
+            };
 
             firebaseHelper.setData(parentReference, data, successCallback, res);
           }
