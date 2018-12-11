@@ -1,2 +1,3 @@
 # JamATuna
-Multiplayer music jamming application.
+
+Multiplayer music jamming application. Yay!
