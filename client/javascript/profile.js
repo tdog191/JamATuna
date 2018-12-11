@@ -17,6 +17,13 @@ let currentProfilePicture = null;
  */
 window.onload = function() {
   const username = sessionStorage.getItem('profile_username');
+  const arrivedFromHomepage = sessionStorage.getItem('arrived_from_homepage');
+
+  // Make "Go Back" button redirect to home page instead of user search
+  // page when arriving at the profile page from the homepage
+  if(arrivedFromHomepage) {
+    $('#go_back').attr('href', '/html/index.html');
+  }
 
   // Set username text beneath the profile picture
   $('#username').text(username);
@@ -184,5 +191,12 @@ $(function() {
     } else {
       $('#save_changes').hide();
     }
+  });
+
+  // Remove 'arrived_from_homepage' from session storage upon clicking the
+  // "Go Back" button to avoid redirecting to the homepage in the future unless
+  // arriving at the profile page from the homepage.
+  $('#go_back').on('click', function(event) {
+    sessionStorage.removeItem('arrived_from_homepage');
   });
 });

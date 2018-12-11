@@ -26,11 +26,6 @@ window.onload = function() {
 };
 
 /**
- * Defines page load handler to display the appropriate buttons
- *     on loading the homepage and jquery handlers to handle the functionality
- *     of the "Profile" and "Logout" buttons.
- */
-/**
  * Defines the overall jquery functionality of the homepage: preparing the
  * profile page of a logged-in user when the 'Profile' button is clicked and
  * logging out a user when the 'Logout' button is clicked.
@@ -40,6 +35,7 @@ $(function() {
     const username = sessionStorage.getItem('jamatuna_username');
 
     sessionStorage.setItem('profile_username', username);
+    sessionStorage.setItem('arrived_from_homepage', true);
   });
 
   $('#logout').on('click', function() {
