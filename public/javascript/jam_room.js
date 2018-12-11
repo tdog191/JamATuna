@@ -48,6 +48,14 @@ function appendMemberListEntry(username, isOwner, colorClassAttribute) {
 
 window.onload = function() {
   const jamRoom = sessionStorage.getItem('jam_room');
+  const username = sessionStorage.getItem('jamatuna_username');
+
+  /*
+  if(!username) {
+
+    window.
+    window.location.replace(baseUrl + '');
+  }*/
 
   $('#page_header').text('Welcome to ' + jamRoom + '!');
 

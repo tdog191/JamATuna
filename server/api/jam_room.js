@@ -7,6 +7,16 @@
 'use strict';
 
 function defineJamRoomAPI(app, firebaseHelper, validation) {
+  // Defines GET request to retrieve all jam rooms in Firebase
+  app.get('/api/get_jam_rooms', function(req, res) {
+    // Define the Firebase parent node reference
+    // and the callback to be executed on success
+    const parentNodeReference = '/jam_rooms/';
+    const successCallback = (snapshot) => res.json(snapshot.val());
+
+    firebaseHelper.getSnapshot(parentNodeReference, successCallback, res);
+  });
+
   // Defines GET request to retrieve a jam room's
   // owner and member list from Firebase
   app.get('/api/jam_room/:jamRoom', function(req, res) {

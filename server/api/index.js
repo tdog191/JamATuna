@@ -34,7 +34,7 @@ function defineAPI(app) {
   const jamRoomAPI = require('./jam_room')(app, firebaseHelper, validation);
   const loginAPI = require('./login')(app, firebaseHelper, validation, bcrypt);
   const profileAPI = require('./profile')(app, firebaseHelper);
-  const searchAPI = require('./search')(app, firebaseHelper);
+  const userAPI = require('./user')(app, firebaseHelper);
   const signupAPI = require('./signup')(app, firebaseHelper, validation, bcrypt);
 }
 

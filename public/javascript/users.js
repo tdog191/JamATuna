@@ -10,6 +10,7 @@
 'use strict';
 
 const baseUrl = window.location.origin;
+let users = {};
 
 /**
  * Generates an HTML user list entry using jQuery.
@@ -37,47 +38,77 @@ function appendUserListEntry(username, colorClassAttribute) {
 }
 
 /**
+ * Fetches all existing users, displays them, and saves them
+ * so no further API calls will be necessary to filter them
+ */
+function searchUsers() {
+  fetch(baseUrl + '/api/get_users')
+      .then(response => response.json())
+      .then(data => {
+        users = data;
+
+        let isBlueListEntry = true;
+
+        // Display every retrieved user, alternating between light-blue
+        // and green colors for each jam room list entry
+        Object.keys(data)
+            .map(user => {
+              if(isBlueListEntry) {
+                appendUserListEntry(user, 'list-group-item-info');
+              } else {
+                appendUserListEntry(user, 'list-group-item-success');
+              }
+
+              isBlueListEntry = !isBlueListEntry;
+            });
+      })
+      .catch(errorResponse => console.log(errorResponse));
+}
+
+/**
+ * Fetches and displays all existing users upon loading the page
+ */
+window.onload = function() {
+  searchUsers();
+};
+
+/**
+ * Display only users with usernames that have the given prefix (ignoring case),
+ * alternating between light-blue and green colors for each jam room list entry
+ *
+ * @param nameQuery The prefix to match usernames against (ignoring case)
+ */
+function filterByName(nameQuery) {
+  let isBlueListEntry = true;
+
+  Object.keys(users)
+      .filter(username =>
+          new RegExp(`^${nameQuery}`).test(username.toLowerCase())
+      ).map(username => {
+        if(isBlueListEntry) {
+          appendUserListEntry(username, 'list-group-item-info');
+        } else {
+          appendUserListEntry(username, 'list-group-item-success');
+        }
+
+        isBlueListEntry = !isBlueListEntry;
+      });
+}
+
+/**
  * Defines the overall jquery functionality of the user list webpage:
- * forming and sending a GET request to the server to retrieve all users
- * whose names have the provided prefix (ignoring case), and displaying the
- * retrieved results on the page.
+ * filtering users and redisplaying them based on the search criteria
  */
 $(function() {
-  $('#user_search').on('submit', function(event) {
-    // Prevent the user search form from submitting
+  $('#search').on('submit', function(event) {
+    // Prevent the search form from submitting by default
     event.preventDefault();
 
+    // Remove all currently displayed users
     $('#users').empty();
 
-    const form_data = $('#search_bar').serializeArray();
+    const searchQuery = $('#search_bar').val().toLowerCase();
 
-    const query = Object.keys(form_data)
-        .map(key => {
-          const fieldKey = form_data[key]['name'];
-          const fieldValue = form_data[key]['value'];
-
-          return encodeURIComponent(fieldKey) + '=' + encodeURIComponent(fieldValue);
-        })
-        .join('&');
-
-    fetch(baseUrl + '/api/user_search?' + query)
-        .then(response => response.json())
-        .then(data => {
-          let isBlueListEntry = true;
-
-          // Display every retrieved user, alternating between light-blue
-          // and green colors for each user list entry
-          for(let index=0; index<data.length; index++) {
-            const user = data[index];
-
-            if(isBlueListEntry) {
-              appendUserListEntry(user, 'list-group-item-info');
-            } else {
-              appendUserListEntry(user, 'list-group-item-success');
-            }
-
-            isBlueListEntry = !isBlueListEntry;
-          }
-        });
-  })
+    filterByName(searchQuery);
+  });
 });

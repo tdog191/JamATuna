@@ -7,8 +7,8 @@
     <title>Users</title>
     <link
       rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../css/users.css" type="text/css" />
@@ -16,15 +16,27 @@
   <body>
     <div class="container">
       <div class="text-center">
-        <h1>Users</h1>
-        <form id="user_search" method="get" action="">
-          <div class="form-group">
-            <label for="search_bar">Search User</label>
-            <input type="text" class="form-control" name="search_bar" id="search_bar" placeholder="Enter username">
-          </div>
-          <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-        <div class="list-group" id="users"></div>
+        <h1>Search Users</h1>
+        <!--
+          Form to search for users by username prefix (ignoring case)
+        -->
+        <div class="my-3">
+          <form id="search" method="get" action="">
+            <div class="form-group">
+              <input type="text" class="form-control" name="search_bar" id="search_bar" placeholder="Search">
+            </div>
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </span>
+          </form>
+        </div>
+        <!--
+          Displays all users that have a matching prefix (ignoring case)
+        -->
+        <div class="my-3">
+          <h1 class="my-3">Users</h1>
+          <div class="list-group" id="users"></div>
+        </div>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
