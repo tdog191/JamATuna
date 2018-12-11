@@ -29,6 +29,8 @@ var buttonHeight = height / numRows;
 var mousePressed = false;
 var hoveredButtonData = {};
 var elapsedTime = 0;
+var waitTime = 125;
+var mouseInside = false;
 
 //=====================================================================================================================
 // Loading
@@ -146,12 +148,13 @@ var stage = new Konva.Stage({
 
 // Handle mouse cursor entering the stage
 stage.on("mouseenter", function() {
+  mouseInside = true;
   stage.container().style.cursor = "pointer";
 });
 
 // Handle mouse cursor leaving the stage
 stage.on("mouseleave", function() {
-  mousePressed = false;
+  mouseInside = false;
   stage.container().style.cursor = "default";
 });
 
@@ -238,8 +241,8 @@ stage.add(layer);
 
 // Create animation loop
 var animation = new Konva.Animation(function(frame) {
-  // Allow events to be created every 100ms
-  if (mousePressed && elapsedTime > 100) {
+  // Allow events to be created every waitTime ms
+  if (mousePressed && mouseInside && elapsedTime > waitTime) {
     elapsedTime = 0;
     playSound(hoveredButtonData, true);
   }
