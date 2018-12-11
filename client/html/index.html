@@ -9,17 +9,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Metadata needed for sharing on Facebook -->
-    <meta property="og:url"                content="https://shy-lizard-100.localtunnel.me" />
-    <meta property="og:type"               content="website" />
-    <meta property="og:title"              content="Jam-a-Tuna" />
-    <meta property="og:description"        content="Welcome to Jam-a-Tuna!" />
-    <meta property="og:image"              content="https://jamatuna.herokuapp.com/images/jamatuna.png" />
-    <meta property="fb:app_id"        content="753234725029775" />
+    <meta property="og:url" content="https://jamatuna.herokuapp.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jam-a-Tuna" />
+    <meta property="og:description" content="Welcome to Jam-a-Tuna!" />
+    <meta property="og:image" content="https://jamatuna.herokuapp.com/images/jamatuna.png" />
+    <meta property="fb:app_id" content="753234725029775" />
     <!-- Header data needed for sharing on Google Plus -->
-    <link rel="canonical" href="https://shy-lizard-100.localtunnel.me" />
-    <script >
+    <link rel="canonical" href="https://jamatuna.herokuapp.com" />
+    <script>
       window.___gcfg = {
-        parsetags: 'explicit'
+        parsetags: "explicit"
       };
     </script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -35,22 +35,28 @@
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
       crossorigin="anonymous"
-    >
+    />
     <link rel="stylesheet" href="../css/index.css" type="text/css" />
   </head>
   <body>
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=753234725029775';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=753234725029775";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    </script>
     <div class="container-fluid h-100">
-      <div class="row align-items-center h-100"> <!-- Center vertically -->
+      <div class="row align-items-center h-100">
+        <!-- Center vertically -->
         <div class="col-md-12">
-          <div class="text-center"> <!-- Center horizontally -->
+          <div class="text-center">
+            <!-- Center horizontally -->
             <img class="mb-4" src="../images/jamatuna.png" width="300" />
 
             <h1 class="mb-4">Welcome to Jam-a-Tuna!</h1>
@@ -65,38 +71,35 @@
             <div class="media">
               <ul class="fa-ul">
                 <li id="facebook">
-                  <!-- Use this in production
                   <a
                     target="_blank"
                     href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjamatuna.herokuapp.com%2F&amp;src=sdkpreparse"
                     class="fb-xfbml-parse-ignore"
-                  >
-                    <i class="fab fa-facebook-square fa-2x"></i>
-                  </a>
-                  -->
-                  <a
-                    target="_blank"
-                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fshy-lizard-100.localtunnel.me%2F&amp;src=sdkpreparse"
-                    class="fb-xfbml-parse-ignore"
+                    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
                   >
                     <i id="facebook_button" class="fab fa-facebook-square fa-2x"></i>
                   </a>
                 </li>
                 <li id="twitter">
-                  <a class="twitter-share-button"
-                     href="https://twitter.com/intent/tweet?url=https://jamatuna.herokuapp.com&text=Check%20Out%20This%20Awesome%20New%20Music%20Game!"
+                  <a
+                    class="twitter-share-button"
+                    href="https://twitter.com/intent/tweet?url=https://jamatuna.herokuapp.com&text=Check%20Out%20This%20Awesome%20New%20Music%20Game!"
+                    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
                   >
                     <i class="fab fa-twitter-square fa-2x"></i>
                   </a>
                 </li>
                 <li id="reddit">
-                  <a href="http://www.reddit.com/submit?url=https://jamatuna.herokuapp.com&title=Check%20Out%20This%20Awesome%20New%20Music%20Game!">
+                  <a
+                    href="http://www.reddit.com/submit?url=https://jamatuna.herokuapp.com&title=Check%20Out%20This%20Awesome%20New%20Music%20Game!"
+                    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                  >
                     <i class="fab fa-reddit-square fa-2x"></i>
                   </a>
                 </li>
                 <li id="google_plus">
                   <a
-                    href="https://plus.google.com/share?url=https://shy-lizard-100.localtunnel.me"
+                    href="https://plus.google.com/share?url=https://jamatuna.herokuapp.com"
                     onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
                   >
                     <i class="fab fa-google-plus-square fa-2x"></i>

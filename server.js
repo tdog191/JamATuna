@@ -6,28 +6,28 @@
  */
 
 function makeServer() {
-  const express = require('express');
+  const express = require("express");
   const app = express();
-  const http = require('http').createServer(app);
-  const io = require('socket.io')(http);
+  const http = require("http").createServer(app);
+  const io = require("socket.io")(http);
 
   // Configure the server and its API
-  const config = require('./server/config')(io);
-  const api = require('./server/api')(app);
+  const config = require("./server/config")(io);
+  const api = require("./server/api")(app);
 
-  // Make all files in the '/public' directory publicly available to be served
+  // Make all files in the '/client' directory publicly available to be served
   // to clients by the server
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + "/client"));
 
   // Defines GET request to retrieve the homepage of the website
-  // ('/public/html/index.html')
-  app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/public/html/index.html');
+  // ('/client/html/index.html')
+  app.get("/", function(req, res) {
+    res.sendFile(__dirname + "/client/html/index.html");
   });
 
   // Start listening on the correct port
   http.listen(process.env.PORT || 3000, function() {
-    console.log('server started');
+    console.log("server started");
   });
 
   return http;
