@@ -1,15 +1,70 @@
-* {
-  margin: 0;
-  padding: 20;
-  box-sizing: border-box;
+@font-face {
+  font-family: Comfort;
+  src: url("../fonts/Multicolore.otf");
 }
-html,
+
+h2 {
+  font-family: Comfort;
+}
+
 body {
-  font: 13px Helvetica, Arial;
-  width: 100%;
-  margin: 0;
-  height: 100%;
+  overflow: auto;
+  margin: 10;
+  background-image: linear-gradient(-90deg, rgb(166, 169, 192), rgb(227, 230, 255), rgb(166, 169, 192));
 }
+
+.title-text {
+  text-align: center;
+  font-family: Comfort;
+  font-size: 32pt;
+}
+
+.button-group {
+  text-align: center;
+  padding: 0px 10px 20px 10px;
+}
+
+.nav-button {
+  width: 100px;
+  font-family: Comfort;
+}
+
+.canvas-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1100px;
+  border-top: 10px solid #444444;
+  border-bottom: 10px solid #444444;
+}
+
+.table-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1100px;
+}
+
+.td-col {
+  padding: 10px 10px 10px 10px;
+  width: 220px;
+  text-align: center;
+}
+
+.td-drums {
+  padding: 20px 20px 20px 20px;
+  width: 1100px;
+  text-align: center;
+}
+
+.encoder {
+  height: 100px;
+}
+
+.drums {
+  display: inline-block;
+}
+
 #overlay {
   background: #ffffff;
   color: #666666;
@@ -23,25 +78,17 @@ body {
   text-align: center;
   padding-top: 25%;
 }
-.radioButton {
-  width: 100px !important;
+
+.toggle.android {
+  border-radius: 20px;
+  font-family: Comfort;
 }
-#gainSlider .slider-selection {
-  background: #bababa;
+
+.toggle.android .toggle-handle {
+  border-radius: 25px;
 }
-.margins {
-  margin: 10px 10px 10px 10px;
-}
-.slider {
-  width: 100px !important;
-}
-.channel {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.sliderContainer {
-  display: flow-root;
-  justify-content: center;
-  align-items: stretch;
+
+.my-info {
+  color: #444444;
+  background-color: #444444;
 }

@@ -21,6 +21,7 @@ function Drums(context) {
   this.audioBuffers = {};
   this.context = context;
   this.gainNodes = {};
+  this.toggles = { 2: true, 3: true, 4: true };
 }
 
 Drums.prototype = {
@@ -89,9 +90,12 @@ Drums.prototype = {
   toggleLayer: function(layer) {
     var now = this.context.currentTime;
     var timeToPlay = (Math.floor(now / 0.25) + 1) * 0.25;
-    if (this.gainNodes[layer].gain.value != 0) {
+
+    if (this.toggles[layer]) {
+      this.toggles[layer] = false;
       this.gainNodes[layer].gain.setTargetAtTime(0.0, timeToPlay, 0.1);
     } else {
+      this.toggles[layer] = true;
       this.gainNodes[layer].gain.setTargetAtTime(this.gains[layer], timeToPlay, 0.1);
     }
   }

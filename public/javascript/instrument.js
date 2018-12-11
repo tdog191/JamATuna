@@ -15,6 +15,7 @@ function Instrument(context, gain, audioFiles) {
   this.maxGain = gain;
   this.gain = 1;
   this.pan = 0;
+  this.lastPlayed = 0;
 }
 
 Instrument.prototype = {
@@ -41,8 +42,8 @@ Instrument.prototype = {
       })
       // Save the data locally
       .then(decodedBuffers => {
-        for (var i = 1; i <= Object.keys(this.audioFiles).length; i++) {
-          this.audioBuffers[i] = decodedBuffers[i - 1];
+        for (var i = 0; i < Object.keys(this.audioFiles).length; i++) {
+          this.audioBuffers[i] = decodedBuffers[i];
         }
       })
       .then(() => {
@@ -86,27 +87,35 @@ Instrument.prototype = {
     var now = this.context.currentTime;
     var timeToPlay = (Math.floor(now / 0.25) + 1) * 0.25;
 
-    // Create audio source
-    var source = this.context.createBufferSource();
-    source.buffer = this.audioBuffers[this.frequency];
+    // Only play sound if the current sound is played after the last played has played
+    if (now > this.lastPlayed) {
+      this.lastPlayed = timeToPlay;
 
-    // Create gain node to handle volume
-    var gainNode = this.context.createGain();
-    gainNode.gain.value = 0.0;
-    gainNode.gain.setTargetAtTime(this.maxGain * this.gain, timeToPlay, 0.01);
-    gainNode.gain.setTargetAtTime(0.0, timeToPlay + 2.0, 0.1);
+      // Create audio source
+      var source = this.context.createBufferSource();
+      source.buffer = this.audioBuffers[this.frequency];
 
-    // Create pan node to handle panning
-    var panNode = this.context.createStereoPanner();
-    panNode.pan.value = this.pan;
+      // Create gain node to handle volume
+      var gainNode = this.context.createGain();
+      gainNode.gain.value = 0.0;
+      gainNode.gain.setTargetAtTime(this.maxGain * this.gain, timeToPlay, 0.01);
+      gainNode.gain.setTargetAtTime(0.0, timeToPlay + 2.0, 0.1);
 
-    // Connect nodes
-    source.connect(gainNode);
-    gainNode.connect(panNode);
-    panNode.connect(this.context.destination);
+      // Create pan node to handle panning
+      var panNode = this.context.createStereoPanner();
+      panNode.pan.value = this.pan;
 
-    // Play sound
-    source.start(timeToPlay);
+      // Connect nodes
+      source.connect(gainNode);
+      gainNode.connect(panNode);
+      panNode.connect(this.context.destination);
+
+      // Play sound
+      source.start(timeToPlay);
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
