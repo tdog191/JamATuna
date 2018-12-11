@@ -1,7 +1,8 @@
 html,
 body {
-    height: 100%; /* Necessary to use '.h-100' class attribute and center the contents of the page vertically */
+    height: 100%;
 }
+
 #page_header {
     margin-bottom: 30px;
 }

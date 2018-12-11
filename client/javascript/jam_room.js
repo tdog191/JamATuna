@@ -54,7 +54,12 @@ function appendMemberListEntry(username, isOwner, colorClassAttribute) {
 window.onload = function() {
   const jamRoom = sessionStorage.getItem('jam_room');
 
+  // Set the page header and open graph description
+  // tag with the name of the jam room
   $('#page_header').text('Welcome to ' + jamRoom + '!');
+
+  $('meta[property="og:description"]')
+      .attr('content', `Come to jam room ${jamRoom}!`);
 
   fetch(baseUrl + '/api/jam_room/' + jamRoom)
       .then(response => response.json())

@@ -1,0 +1,61 @@
+/*
+ * Inspiration for the styling of the background and social media buttons comes
+ * from the "Adding Social Media Icons | HTML & CSS" video on Youtube at
+ * https://www.youtube.com/watch?v=woVuUbDOeMk
+ */
+.media {
+    justify-content: center;
+}
+
+/*
+ * Align media icons in row in the center of the screen, display circles around
+ * them, and set the transition duration to .5 seconds when the mouse hovers
+ * away from the icons
+ */
+li {
+    margin: 10px 30px;
+    display: inline-block; /* Line up media icons in row instead of column */
+    font-size: 20px; /* Make media icons bigger */
+    padding: 20px 20px; /* Make circles around media icons bigger */
+    border-radius: 50%;
+    transition: .5s; /* Duration of color transition when mouse hovers away from icon */
+    justify-content: center;
+}
+
+/*
+ * Set the color of the media buttons to very dark gray (#292929) when the mouse
+ * hovers over them, and set the transition duration to .5 seconds
+ */
+li:hover {
+    color: #292929 !important;
+    border: 1px solid #292929 !important;
+    transition: .5s !important;
+}
+
+/* Ignore the default blue hyperlink color for the social media buttons */
+a {
+    color: inherit;
+}
+
+/* Define colors for each social media button and its corresponding circle */
+
+#facebook {
+    color: #0000FF;
+    border: 1px solid #0000FF;
+}
+
+#twitter {
+    color: #00CCFF;
+    border: 1px solid #00CCFF;
+}
+
+#reddit {
+    color: #FF0000;
+    border: 1px solid #FF0000;
+}
+
+#google_plus {
+    filter: brightness(0.70);
+    color: #FF0000;
+    border: 1px solid #FF0000;
+}
