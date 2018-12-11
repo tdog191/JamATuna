@@ -1,6 +1,6 @@
 /**
- * @fileoverview Defines jQuery functionality to update displayed profile
- *     picture depending on user selection in "Settings" tab.
+ * @fileoverview Defines functionality to fetch and display the user's profile
+ *     info and update the profile picture in the "Settings" tab.
  */
 
 'use strict';
@@ -9,6 +9,12 @@ const baseUrl = window.location.origin;
 let initialProfilePicture = null;
 let currentProfilePicture = null;
 
+/**
+ * Displays the user's username and fetches and displays the user's profile
+ * picture upon loading the page.
+ *
+ * The 'Save Changes' button is also hidden.
+ */
 window.onload = function() {
   const username = sessionStorage.getItem('profile_username');
 
@@ -50,7 +56,14 @@ window.onload = function() {
       });
 };
 
+/**
+ * Defines the overall jquery functionality of the profile page: updating the
+ * displayed profile picture when the user changes it and posting to the
+ * server when a user changes and saves/uploads his/her new profile picture.
+ */
 $(function() {
+  // Post to server when a user selects a provided
+  // profile picture as his/her new profile picture
   $('#change-profile-picture').on('submit', function(event) {
     // Prevent the profile picture change form from submitting
     event.preventDefault();
@@ -84,6 +97,8 @@ $(function() {
         });
   });
 
+  // Upload profile picture to server when new profile
+  // picture is submitted in the "Settings" tab
   $('#upload-profile-picture').on('submit', function(event) {
     // Prevent the profile picture upload form from submitting
     event.preventDefault();
@@ -92,11 +107,12 @@ $(function() {
     const reader = new FileReader();
 
     reader.onload = function(image) {
-      const newProfilePicture = image.target.result;
+      const newProfilePictureData = image.target.result;
 
       const data = {
         username: username,
-        newProfilePicture: newProfilePicture,
+        newProfilePictureType: 'other',
+        newProfilePictureData: newProfilePictureData,
       };
 
       const postRequestOptions = {
@@ -107,7 +123,7 @@ $(function() {
         body: JSON.stringify(data),
       };
 
-      fetch(baseUrl + '/api/upload_profile_picture', postRequestOptions)
+      fetch(baseUrl + '/api/change_profile_picture', postRequestOptions)
           .then(successResponse => {
             console.log(successResponse);
 

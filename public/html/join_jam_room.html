@@ -23,16 +23,9 @@
             </h2>
             <form id="join_jam_room_form" method="post" action="/api/join_jam_room" enctype="application/x-www-form-urlencoded">
               <div class="form-group">
-                <label for="jam_room_name">Jam Room Name</label>
-                <input type="text" class="form-control" name="jam_room_name" id="jam_room_name" placeholder="Enter name">
-                <div class="invalid-feedback" id="empty_jam_room_name_feedback" disabled>
-                  Jam room name cannot be empty.
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="joiner_username">Joiner Username</label>
-                <input type="text" class="form-control" name="joiner_username" id="joiner_username" placeholder="Enter joiner username">
-                <div class="invalid-feedback" id="empty_joiner_username_feedback" disabled>
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+                <div class="invalid-feedback" id="empty_username_feedback" disabled>
                   Joiner username cannot be empty.
                 </div>
               </div>
@@ -48,6 +41,8 @@
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"
     ></script>
+    <script type="text/javascript" src="/javascript/common/form_validation.js"></script>
+    <script type="text/javascript" src="/javascript/common/form_submission.js"></script>
     <script type="module" src="/javascript/join_jam_room.js"></script>
   </body>
 </html>

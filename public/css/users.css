@@ -1,0 +1,6 @@
+/*
+ * Inlines 'Search' button with search bar
+ */
+span, .form-group {
+    display:inline-block !important;
+}

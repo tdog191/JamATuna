@@ -46,6 +46,11 @@ function appendMemberListEntry(username, isOwner, colorClassAttribute) {
   }
 }
 
+/**
+ * Fetches and displays the jam room's owner and members upon loading the page.
+ *
+ * The title of the page is also set with the name of the jam room.
+ */
 window.onload = function() {
   const jamRoom = sessionStorage.getItem('jam_room');
 

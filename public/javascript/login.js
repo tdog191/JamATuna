@@ -1,94 +1,58 @@
 /**
- * @fileoverview Defines helper functions for validating the form fields of the
- *     login page as the user types and when the form is submitted.
+ * @fileoverview Defines the form validation and submission of the login page.
+ *     It is assumed this file is included in an HTML file along with
+ *     'form_validation.js' and 'form_submission.js'.
  */
 
 'use strict';
 
 /**
- * Defines the 'keyup' and 'blur' event handlers for each field of the given
- * form to validate a field as the user releases a key and the field goes out
- * of focus (the user clicks or "tab-navigates" away from the field) respectively.
+ * Acquires the data in the form when the form is submitted.
+ *
+ * @returns {Object} The data in the form to be acquired for submission
  */
-function defineEventHandlers(formID) {
-  const form_data = $('#' + formID).serializeArray();
+function getFormDataCallback() {
+  const username = $('#username').val();
+  const password = $('#password').val();
 
-  for (const input in form_data){
-    const fieldName = form_data[input]['name'];
+  const formData = {
+    username: username,
+    password: password,
+  };
 
-    $('#' + fieldName).on('keyup', function() {
-      validateFieldIsNonempty(fieldName);
-    });
-
-    $('#' + fieldName).on('blur', function() {
-      validateFieldIsNonempty(fieldName);
-    });
-  }
+  return formData;
 }
 
 /**
- * Validates the given field to ensure it is nonempty.
+ * Saves the username in session storage and redirects to the retrieved URL from
+ * the server (the homepage) on successful submission of the login form.
  *
- * If the field is empty, feedback is displayed to the user to tell the user
- * that this is not allowed.  Otherwise, this feedback is hidden from the user.
- *
- * @param fieldName the name of the field to be validated
- * @returns {boolean} true if the field is nonempty, false otherwise
+ * @param baseUrl The base of the URL address
+ * @param data The response data from the server
  */
-function validateFieldIsNonempty(fieldName) {
-  const value = $('#' + fieldName).val();
+function postSuccessCallback(baseUrl, data) {
+  const username = $('#username').val();
 
-  // Check for empty string, null or undefined
-  if(!value || value.length === 0) {
-    $('#' + fieldName).addClass('is-invalid');
-    $('#empty_' + fieldName + '_feedback').show();
+  if(data.success) {
+    sessionStorage.setItem('jamatuna_username', username);
 
-    return false;
+    window.location.replace(baseUrl + data.redirectURL);
   } else {
-    $('#' + fieldName).removeClass('is-invalid');
-    $('#empty_' + fieldName + '_feedback').hide();
-
-    return true;
+    alert(data.errorMessage);
   }
-}
-
-/**
- * Validates every field of the given form upon submission and cancels the
- * submission if any field is invalid.
- */
-function validateFormOnSubmission(formID) {
-  $('#' + formID).on('submit', function(event) {
-    const form_data = $('#' + formID).serializeArray();
-    let isValidForm = true;
-    let username = "";
-
-    // Validate every field
-    for (const input in form_data){
-      const fieldName = form_data[input]['name'];
-
-      if(fieldName === 'username') {
-        username = form_data[input]['value'];
-      }
-
-      if(!validateFieldIsNonempty(fieldName)) {
-        isValidForm = false;
-      }
-    }
-
-    // Cancels the form submission if any field is invalid
-    if(!isValidForm) {
-      event.preventDefault();
-    } else {
-      sessionStorage.setItem('jamatuna_username', username);
-    }
-  });
 }
 
 /**
  * Defines the overall jquery functionality of the login webpage: validating
- * the form fields as the user types and when the form is submitted.
+ * the form fields as the user types and when the form is submitted, and posting
+ * the form to the server when the form submsission is valid.
+ *
+ * If the POST request succeeds, the submitted username is saved in session
+ * storage and the user is redirected to the homepage.  Otherwise, an alert with
+ * the received error message is displayed to the user.
  */
 $(function() {
   defineEventHandlers('login_form');
-  validateFormOnSubmission('login_form');
+  defineFormSubmissionHandler('login_form', getFormDataCallback, '/api/login',
+      postSuccessCallback);
 });

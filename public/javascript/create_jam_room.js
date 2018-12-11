@@ -1,87 +1,54 @@
 /**
- * @fileoverview Defines helper functions for validating the form fields of the
- *     jam room creation page as the user types and when the form is submitted.
+ * @fileoverview Defines the form validation and submission of the jam room
+ *     creation page.  It is assumed this file is included in an HTML file along
+ *     with 'form_validation.js' and 'form_submission.js'.
  */
 
 'use strict';
 
 /**
- * Defines the 'keyup' and 'blur' event handlers for each field of the given
- * form to validate a field as the user releases a key and the field goes out
- * of focus (the user clicks or "tab-navigates" away from the field) respectively.
+ * Acquires the data in the form when the form is submitted.
+ *
+ * @returns {Object} The data in the form to be acquired for submission
  */
-function defineEventHandlers(formID) {
-  const form_data = $('#' + formID).serializeArray();
+function getFormDataCallback() {
+  const jamRoomName = $('#jam_room_name').val();
+  const ownerUsername = $('#owner_username').val();
 
-  for (const input in form_data){
-    const fieldName = form_data[input]['name'];
+  const formData = {
+    jam_room_name: jamRoomName,
+    owner_username: ownerUsername,
+  };
 
-    $('#' + fieldName).on('keyup', function() {
-      validateFieldIsNonempty(fieldName);
-    });
-
-    $('#' + fieldName).on('blur', function() {
-      validateFieldIsNonempty(fieldName);
-    });
-  }
+  return formData;
 }
 
 /**
- * Validates the given field to ensure it is nonempty.
+ * Redirects to the retrieved URL from the server on successful submission of
+ * the jam room creation form.
  *
- * If the field is empty, feedback is displayed to the user to tell the user
- * that this is not allowed.  Otherwise, this feedback is hidden from the user.
- *
- * @param fieldName the name of the field to be validated
- * @returns {boolean} true if the field is nonempty, false otherwise
+ * @param baseUrl The base of the URL address
+ * @param data The response data from the server
  */
-function validateFieldIsNonempty(fieldName) {
-  const value = $('#' + fieldName).val();
-
-  // Check for empty string, null or undefined
-  if(!value || value.length === 0) {
-    $('#' + fieldName).addClass('is-invalid');
-    $('#empty_' + fieldName + '_feedback').show();
-
-    return false;
+function postSuccessCallback(baseUrl, data) {
+  if(data.success) {
+    window.location.replace(baseUrl + data.redirectURL);
   } else {
-    $('#' + fieldName).removeClass('is-invalid');
-    $('#empty_' + fieldName + '_feedback').hide();
-
-    return true;
+    alert(data.errorMessage);
   }
-}
-
-/**
- * Validates every field of the given form upon submission and cancels the
- * submission if any field is invalid.
- */
-function validateFormOnSubmission(formID) {
-  $('#' + formID).on('submit', function(event) {
-    const form_data = $('#' + formID).serializeArray();
-    let isValidForm = true;
-
-    // Validate every field
-    for (const input in form_data){
-      const fieldName = form_data[input]['name'];
-
-      if(!validateFieldIsNonempty(fieldName)) {
-        isValidForm = false;
-      }
-    }
-
-    // Cancels the form submission if any field is invalid
-    if(!isValidForm) {
-      event.preventDefault();
-    }
-  });
 }
 
 /**
  * Defines the overall jquery functionality of the jam room creation webpage:
- * validating the form fields as the user types and when the form is submitted.
+ * validating the form fields as the user types and when the form is submitted,
+ * and posting the form to the server when the form submsission is valid.
+ *
+ * If the POST request succeeds, the user is redirected to the retrieved URL
+ * from the server.  Otherwise, an alert with the received error message is
+ * displayed to the user.
  */
 $(function() {
   defineEventHandlers('create_jam_room_form');
-  validateFormOnSubmission('create_jam_room_form');
+  defineFormSubmissionHandler('create_jam_room_form', getFormDataCallback,
+      '/api/create_jam_room', postSuccessCallback);
 });

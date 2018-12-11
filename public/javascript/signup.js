@@ -1,141 +1,58 @@
 /**
- * @fileoverview Defines helper functions for validating the form fields of the
- *     signup page as the user types and when the form is submitted.
+ * @fileoverview Defines the form validation and submission of the signup page.
+ *     It is assumed this file is included in an HTML file along with
+ *     'form_validation.js' and 'form_submission.js'.
  */
-
-//TODO: Refactor login, signup, create_jam_room, and join_jam_room pages to reuse duplicate code
 
 'use strict';
 
 /**
- * Defines the 'keyup' and 'blur' event handlers for each field of the given
- * form to validate a field as the user releases a key and the field goes out
- * of focus (the user clicks or "tab-navigates" away from the field) respectively.
+ * Acquires the data in the form when the form is submitted.
+ *
+ * @returns {Object} The data in the form to be acquired for submission
  */
-function defineEventHandlers(formID) {
-  const form_data = $('#' + formID).serializeArray();
-
-  for (const input in form_data){
-    const fieldName = form_data[input]['name'];
-
-    $('#' + fieldName).on('keyup', function() {
-      validateField(fieldName);
-    });
-
-    $('#' + fieldName).on('blur', function() {
-      validateField(fieldName);
-    });
-  }
-}
-
-/**
- * Validates the given field to ensure it is nonempty and, in the case of the
- * "confirm_password" field, ensure the value matches the value of the "password"
- * field.
- *
- * If the field fails a validation check, feedback corresponding to the error is
- * displayed to the user.  Otherwise, this feedback is hidden from the user.
- *
- * @param fieldName the name of the field to be validated
- * @returns {boolean} true if the field is valid, false otherwise
- */
-function validateField(fieldName) {
-  const isNonempty = validateFieldIsNonempty(fieldName);
-  let passwordsMatch = true;
-
-  if(fieldName === 'confirm_password' && !validatePasswordsMatch()) {
-    passwordsMatch = false;
-  }
-
-  if(isNonempty && passwordsMatch) {
-    $('#' + fieldName).removeClass('is-invalid');
-
-    return true;
-  } else {
-    $('#' + fieldName).addClass('is-invalid');
-
-    return false;
-  }
-}
-
-/**
- * Validates the given field to ensure it is nonempty.
- *
- * If the field is empty, feedback is displayed to the user to tell the user
- * that this is not allowed.  Otherwise, this feedback is hidden from the user.
- *
- * @param fieldName the name of the field to be validated
- * @returns {boolean} true if the field is nonempty, false otherwise
- */
-function validateFieldIsNonempty(fieldName) {
-  const value = $('#' + fieldName).val();
-
-  // Check for empty string, null or undefined
-  if(!value || value.length === 0) {
-    $('#empty_' + fieldName + '_feedback').show();
-
-    return false;
-  } else {
-    $('#empty_' + fieldName + '_feedback').hide();
-
-    return true;
-  }
-}
-
-/**
- * Validates that the "password" and "confirm_password" field values match.
- *
- * If the values do not match, feedback is displayed to the user to tell the
- * user that this is not allowed.  Otherwise, this feedback is hidden from the
- * user.
- *
- * @returns {boolean} true if the passwords match, false otherwise
- */
-function validatePasswordsMatch() {
+function getFormDataCallback() {
+  const username = $('#username').val();
   const password = $('#password').val();
-  const confirm_password = $('#confirm_password').val();
 
-  if(password !== confirm_password) {
-    $('#unequal_confirm_password_feedback').show();
+  const formData = {
+    username: username,
+    password: password,
+  };
 
-    return false;
-  } else {
-    $('#unequal_confirm_password_feedback').hide();
-
-    return true;
-  }
+  return formData;
 }
 
 /**
- * Validates every field of the given form upon submission and cancels the
- * submission if any field is invalid.
+ * Saves the username in session storage and redirects to the retrieved URL from
+ * the server (the homepage) on successful submission of the signup form.
+ *
+ * @param baseUrl The base of the URL address
+ * @param data The response data from the server
  */
-function validateFormOnSubmission(formID) {
-  $('#' + formID).on('submit', function(event) {
-    const form_data = $('#' + formID).serializeArray();
-    let isValidForm = true;
+function postSuccessCallback(baseUrl, data) {
+  const username = $('#username').val();
 
-    // Validate every field
-    for (const input in form_data){
-      const fieldName = form_data[input]['name'];
+  if(data.success) {
+    sessionStorage.setItem('jamatuna_username', username);
 
-      if(!validateField(fieldName)) {
-        isValidForm = false;
-      }
-    }
-
-    // Cancels the form submission if any field is invalid
-    if(!isValidForm) {
-      event.preventDefault();
-    }
-  });
+    window.location.replace(baseUrl + data.redirectURL);
+  } else {
+    alert(data.errorMessage);
+  }
 }
 
 /**
  * Defines the overall jquery functionality of the signup webpage: validating
- * the form fields as the user types and when the form is submitted.
+ * the form fields as the user types and when the form is submitted, and posting
+ * the form to the server when the form submsission is valid.
+ *
+ * If the POST request succeeds, the submitted username is saved in session
+ * storage and the user is redirected to the homepage.  Otherwise, an alert with
+ * the received error message is displayed to the user.
  */
 $(function() {
   defineEventHandlers('signup_form');
-  validateFormOnSubmission('signup_form');
+  defineFormSubmissionHandler('signup_form', getFormDataCallback, '/api/signup',
+      postSuccessCallback);
 });

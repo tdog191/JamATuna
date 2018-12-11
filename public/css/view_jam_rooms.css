@@ -1,0 +1,7 @@
+/*
+ * Inlines 'Search By:' header with radio buttons
+ * and 'Search' button with search bar
+ */
+h2, span, .form-group {
+    display:inline-block !important;
+}
