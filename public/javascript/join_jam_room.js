@@ -5,6 +5,8 @@
 
 'use strict';
 
+const baseUrl = window.location.origin;
+
 /**
  * Defines the 'keyup' and 'blur' event handlers for each field of the given
  * form to validate a field as the user releases a key and the field goes out
@@ -58,6 +60,9 @@ function validateFieldIsNonempty(fieldName) {
  */
 function validateFormOnSubmission(formID) {
   $('#' + formID).on('submit', function(event) {
+    // Prevent the jam room joining form from submitting by default
+    event.preventDefault();
+
     const form_data = $('#' + formID).serializeArray();
     let isValidForm = true;
 
@@ -72,8 +77,44 @@ function validateFormOnSubmission(formID) {
 
     // Cancels the form submission if any field is invalid
     if(!isValidForm) {
-      event.preventDefault();
+      return;
     }
+
+    // Prepare POST request to server to join the jam room
+    const jamRoomName = sessionStorage.getItem('jam_room');
+    const username = $('#username').val();
+
+    const data = {
+      jam_room_name: jamRoomName,
+      joiner_username: username,
+    };
+
+    const postRequestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    };
+
+    // Post jam room name and username to server to join the jam room,
+    // redirecting to the jam room page on success and displaying the received
+    // error message on failure
+    fetch(baseUrl + '/api/join_jam_room', postRequestOptions)
+        .then(response => response.json())
+        .then(data => {
+          if(data.success) {
+            window.location.replace(baseUrl + data.redirectURL);
+          } else {
+            alert(data.errorMessage);
+          }
+        })
+        .catch(errorResponse => {
+          // Log error response and reload page in case of extreme failure
+          console.log(errorResponse);
+
+          location.reload();
+        });
   });
 }
 

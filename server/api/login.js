@@ -35,7 +35,7 @@ function defineLoginAPI(app, firebaseHelper, validation, bcrypt) {
               // Send redirect URL of success page on success
               res.json({
                 success: true,
-                redirectURL: '/html/login_successful.html',
+                redirectURL: '/html/index.html',
               });
             }
           });

@@ -115,14 +115,20 @@ function defineJamRoomAPI(app, firebaseHelper, validation) {
     // Validate that the provided jam room exists
     validation.checkIfJamRoomExists(jamRoomName).then(jamRoomExists => {
       if(!jamRoomExists) {
-        // Redirect to error page when jam room does not exist
-        res.redirect('/html/jam_room_does_not_exist.html');
+        // Send error message when jam room does not exist
+        res.json({
+          success: false,
+          errorMessage: 'Jam room does not exist.  Try again.',
+        });
       } else {
         // Validate that the provided joiner username exists
         validation.checkIfUsernameExists(joinerUsername).then(usernameExists => {
           if(!usernameExists) {
-            // Redirect to error page when joiner username does not exist
-            res.redirect('/html/jam_room_joiner_does_not_exist.html');
+            // Send error message when username does not exist
+            res.json({
+              success: false,
+              errorMessage: 'Username does not exist.  Try again.',
+            });
           } else {
             // Acquire the current list of members in the jam
             // room to append the joiner username to it
@@ -141,8 +147,11 @@ function defineJamRoomAPI(app, firebaseHelper, validation) {
 
               firebaseHelper.updateData(updateParentNodeReference, data, false, res);
 
-              // Redirect to success page on success
-              res.redirect('/html/successfully_joined_jam_room.html');
+              // Send redirect URL of jam room page on success
+              res.json({
+                success: true,
+                redirectURL: '/html/jam_room.html',
+              });
             };
 
             firebaseHelper.getSnapshot(parentNodeReference, successCallback, res);

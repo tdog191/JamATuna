@@ -26,7 +26,7 @@ function appendJamRoomListEntry(jamRoom, colorClassAttribute) {
   ];
 
   const jamRoomListEntry =
-      $(`<a href="jam_room.html" class="${classAttribute.join(' ')}">`);
+      $(`<a href="join_jam_room.html" class="${classAttribute.join(' ')}">`);
 
   jamRoomListEntry.text(jamRoom);
   jamRoomListEntry.on('click', function(event) {
