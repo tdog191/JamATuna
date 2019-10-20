@@ -60,7 +60,7 @@ h1 {
 .dropdown-toggle:active,
 .open,
 .dropdown-toggle {
-  background: var(--main-color);
+  background: var(--main-color) !important;
 }
 
 .dropdown-menu {
