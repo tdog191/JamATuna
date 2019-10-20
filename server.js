@@ -26,8 +26,9 @@ function makeServer() {
   });
 
   // Start listening on the correct port
-  http.listen(process.env.PORT || 3000, function() {
-    console.log("server started");
+  const port = process.env.PORT || 3000;
+  http.listen(port, function() {
+    console.log("server started on port " + port);
   });
 
   return http;

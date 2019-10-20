@@ -65,3 +65,6 @@ typings/
 
 # secret configuration
 server/config/secret_config.js
+
+# vscode
+.vscode
