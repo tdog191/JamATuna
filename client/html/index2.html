@@ -1,0 +1,150 @@
+<!--
+  The social media icons (the 'i' HTML tags) are provided by fontawesome.com.
+  Their license can be found at https://fontawesome.com/license.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Metadata needed for sharing on Facebook -->
+    <meta property="og:url" content="https://jamatuna.herokuapp.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jam-a-Tuna" />
+    <meta property="og:description" content="Welcome to Jam-a-Tuna!" />
+    <meta
+      property="og:image"
+      content="https://jamatuna.herokuapp.com/images/jamatuna.png"
+    />
+    <meta property="fb:app_id" content="753234725029775" />
+    <!-- Header data needed for sharing on Google Plus -->
+    <link rel="canonical" href="https://jamatuna.herokuapp.com" />
+    <script>
+      window.___gcfg = {
+        parsetags: "explicit"
+      };
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="/javascript/index.js"></script>
+
+    <title>Homepage</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="../css/common/background.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="../css/common/social_media.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="../css/index.css" type="text/css" />
+  </head>
+  <body>
+    <!-- Div and script necessary for sharing on Facebook -->
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src =
+          "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=753234725029775";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    </script>
+    <div class="container-fluid h-100">
+      <div class="row align-items-center h-100">
+        <!-- Center vertically -->
+        <div class="col-md-12">
+          <div class="text-center">
+            <!-- Center horizontally -->
+            <img class="mb-4" src="../images/jamatuna.png" width="300" />
+
+            <h1 class="mb-4">Welcome to Jam-a-Tuna!</h1>
+
+            <div class="dropdown">
+              <button
+                class="btn btn-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Select a jam room
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Coral Reef</a>
+                <a class="dropdown-item" href="#">Tidewater Bay</a>
+                <a class="dropdown-item" href="#">Shark Tank</a>
+              </div>
+            </div>
+
+            <div class="media">
+              <ul class="fa-ul">
+                <li id="facebook">
+                  <a
+                    target="_blank"
+                    class="fb-xfbml-parse-ignore"
+                    onclick="popupWindow('facebook', 'Facebook', window, 600, 600)"
+                  >
+                    <i
+                      id="facebook_button"
+                      class="fab fa-facebook-square fa-2x"
+                    ></i>
+                  </a>
+                </li>
+                <li id="twitter">
+                  <a
+                    class="twitter-share-button"
+                    onclick="popupWindow('twitter', 'Twitter', window, 600, 600)"
+                  >
+                    <i class="fab fa-twitter-square fa-2x"></i>
+                  </a>
+                </li>
+                <li id="reddit">
+                  <a
+                    onclick="popupWindow('reddit', 'reddit', window, 600, 600)"
+                  >
+                    <i class="fab fa-reddit-square fa-2x"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

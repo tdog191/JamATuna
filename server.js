@@ -12,7 +12,7 @@ function makeServer() {
   const io = require("socket.io")(http);
 
   // Configure the server and its API
-  const config = require("./server/config")(io);
+  const config = require("./server/config/index")(io);
   const api = require("./server/api")(app);
 
   // Make all files in the '/client' directory publicly available to be served
@@ -22,7 +22,7 @@ function makeServer() {
   // Defines GET request to retrieve the homepage of the website
   // ('/client/html/index.html')
   app.get("/", function(req, res) {
-    res.sendFile(__dirname + "/client/html/index.html");
+    res.sendFile(__dirname + "/client/html/index2.html");
   });
 
   // Start listening on the correct port
