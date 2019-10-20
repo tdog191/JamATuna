@@ -28,6 +28,63 @@ body {
   src: url("../../fonts/Multicolore.otf");
 }
 
+:root {
+  --main-color: #444444;
+}
+
 h1 {
   font-family: Comfort;
+}
+
+.btn {
+  width: 250px;
+  padding: 10px 20px;
+  border: 0 none;
+  letter-spacing: 2px;
+  font-family: Comfort;
+  font-size: 14px;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+  background: var(--main-color);
+  outline: 0 none;
+}
+
+.btn-primary {
+  background: var(--main-color);
+  color: #ffffff;
+}
+
+.dropdown-toggle:active,
+.open,
+.dropdown-toggle {
+  background: var(--main-color);
+}
+
+.dropdown-menu {
+  background-color: var(--main-color);
+}
+
+.dropdown-menu > a {
+  width: 250px;
+  color: #fff;
+  font-family: Comfort;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background: var(--main-color);
+}
+
+.btn-primary:active,
+.btn-primary.active {
+  background: var(--main-color);
+  box-shadow: none;
 }

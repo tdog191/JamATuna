@@ -82,3 +82,7 @@ function popupWindow(url, title, win, w, h) {
   );
   return false;
 }
+
+function setJamRoom(jamRoom) {
+  sessionStorage.setItem("jam_room", jamRoom);
+}

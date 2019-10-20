@@ -49,7 +49,8 @@ window.onload = function() {
   jamRoom = sessionStorage.getItem("jam_room");
   socket.emit("joinAudioRoom", jamRoom);
 
-  document.getElementById("title").innerHTML = jamRoom + " / " + document.getElementById("title").innerHTML;
+  document.getElementById("title").innerHTML =
+    jamRoom + " / " + document.getElementById("title").innerHTML;
 
   // Set up instruments
   instruments = {
