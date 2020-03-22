@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
+    <script src="../javascript/vendor/jquery.min.js"></script>
+    <script src="../javascript/vendor/jquery-3.3.1.min.js"></script>
+    <script src="../javascript/vendor/konva.min.js"></script>
     <script src="../javascript/vendor/jquery.knob.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="../javascript/vendor/bootstrap-toggle.min.js"></script>
 
-    <link
-      rel="stylesheet"
-      href="../css/vendor/bootstrap.min.css"
-      type="text/css"
-    />
-    <link
-      href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="../css/vendor/bootstrap.min.css" type="text/css" />
+    <link href="../css/vendor/bootstrap-toggle.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/audio.css" type="text/css" />
 
     <meta charset="utf-8" />
@@ -24,13 +17,9 @@
   </head>
 
   <body>
-    <div id="overlay">
-      <img src="../images/loader.gif" alt="Loading" /><br />
-    </div>
+    <div id="overlay"><img src="../images/loader.gif" alt="Loading" /><br /></div>
     <p class="title-text" id="title">Jam-A-Tuna</p>
-    <div class="button-group">
-      <a class="btn btn-info nav-button" href="/" role="button">Home</a>
-    </div>
+    <div class="button-group"><a class="btn btn-info nav-button" href="/" role="button">Home</a></div>
     <div class="canvas-container" id="container"></div>
     <table class="table-container">
       <tr>

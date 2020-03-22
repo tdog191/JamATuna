@@ -57,7 +57,7 @@ Drums.prototype = {
         Object.keys(this.audioBuffers).forEach(key => {
           // Calculate start time
           var now = this.context.currentTime;
-          var timeToPlay = (Math.floor(now / 0.25) + 1) * 0.25;
+          var timeToPlay = (Math.floor(now / 0.25) + 1) * 0.25 + 0.05;
 
           // Create source node and set audio to loop
           var source = this.context.createBufferSource();
@@ -68,6 +68,7 @@ Drums.prototype = {
           var gainNode = this.context.createGain();
           gainNode.gain.value = this.gains[key];
 
+          console.log(timeToPlay);
           // Connect nodes
           source.connect(gainNode);
           gainNode.connect(this.context.destination);
