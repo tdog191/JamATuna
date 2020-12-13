@@ -68,3 +68,5 @@ server/config/secret_config.js
 
 # vscode
 .vscode
+
+*.DS_Store
