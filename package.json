@@ -5,7 +5,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "firebase": "^5.7.0",
     "konva": "^2.5.1",
     "mocha": "^5.2.0",
